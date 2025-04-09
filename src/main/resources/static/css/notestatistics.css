@@ -1,0 +1,702 @@
+@charset "UTF-8";
+/* General body and font settings */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    box-sizing: border-box;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #2c3e50, #1f3a66, #34495e, #2c3e50, #212f3d, #7f8c8d);
+    padding: 15px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+.logo-btn img {
+    height: 45px; /* Giới hạn chiều cao */
+    width: auto; /* Tự động điều chỉnh */
+	border-radius: 5px; /* Bo tròn hoàn toàn */
+	object-fit: cover; /* Cắt ảnh vừa với khung */
+    display: block;
+}
+/* Logo and Dropdown Container */
+.navbar .logo-dropdown {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Logo */
+.navbar .logo-dropdown .logo {
+    background: none;  /* Loại bỏ nền cho logo */
+    margin-right: 0px; /* Loại bỏ khoảng cách */
+    cursor: pointer;  /* Thêm con trỏ pointer khi hover lên logo */
+    padding: 0;  /* Loại bỏ padding */
+}
+
+.navbar .logo-dropdown .logo img {
+    max-height: 32px; /* Giới hạn chiều cao của logo */
+    max-width: 100%; /* Đảm bảo logo không bị vượt ra ngoài */
+    display: block;  /* Đảm bảo logo không có khoảng cách bên dưới */
+}
+
+/* Dropdown Menu */
+.navbar .logo-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #2c3e50;
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.navbar .logo-dropdown .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.navbar .logo-dropdown .dropdown-content a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar .logo-dropdown .dropdown-content.show {
+    display: block;
+}
+
+.navbar i {
+    margin-right: 5px;
+}
+
+
+/* Navbar Links */
+.navbar .nav-links {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar .nav-links li {
+    margin-right: 25px;
+}
+
+.navbar .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar .nav-links li a:hover {
+    color: #f0f0f0;
+    transform: scale(1.03);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px; /* Giảm chiều rộng của sidebar */
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    padding-top: 20px;
+    z-index: 999;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 80px);
+    box-sizing: border-box;
+    border-radius: 10px 0 0 10px;
+}
+/* Hoặc cho icon trong sidebar */
+.sidebar i {
+    margin-right: 8px;
+}
+/* Sidebar User Info */
+.sidebar .user-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar .user-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.sidebar .user-info h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.sidebar .user-info p {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Sidebar Menu */
+.sidebar .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .menu li {
+    margin: 15px 0;
+}
+
+.sidebar .menu li a {
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .menu li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Main Content */
+.main-container {
+    display: flex;
+    padding-top: 80px;
+}
+
+.content {
+    flex-grow: 1;
+    margin-left: 200px; /* Điều chỉnh lại để phần nội dung có thêm diện tích */
+    padding: 20px;
+}
+
+.sort-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Khoảng cách giữa select và bảng */
+}
+
+.sort-label {
+    font-size: 15px;
+    color: #333;
+    margin-right: 10px;
+}
+
+.sort-select {
+    background-color: #ffffff;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover Effect for Dropdown */
+.sort-select:hover {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+/* Focus Effect */
+.sort-select:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #e7f4ff;
+}
+
+/* Table Styles */
+.note-table {
+    width: 100%;
+    border-collapse: separate; /* Để tách rời các ô và cho phép bo tròn */
+    border-spacing: 0; /* Xóa khoảng cách giữa các ô */
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Viền cho bảng */
+    border-radius: 5px; /* Bo tròn toàn bộ bảng */
+    overflow: hidden; /* Đảm bảo không có viền thừa ở ngoài */
+    table-layout: auto; /* Dùng auto để các cột tự động điều chỉnh theo nội dung */
+}
+
+.note-table thead {
+    background-color: #008080;
+    color: #fff;
+}
+
+.note-table th, .note-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* Viền dưới cho các ô */
+    word-wrap: break-word; /* Cho phép ngắt từ và xuống dòng */
+    overflow-wrap: break-word; /* Giúp ngắt từ đúng vị trí nếu quá dài */
+    white-space: normal; /* Đảm bảo nội dung có thể xuống dòng */
+    word-break: break-word; /* Ngắt từ dài thành nhiều dòng */
+}
+
+/* Bo tròn góc trên của tr trong thead */
+.note-table thead tr:first-child th:first-child {
+    border-top-left-radius: 5px; /* Bo tròn góc trên trái của th */
+}
+
+.note-table thead tr:first-child th:last-child {
+    border-top-right-radius: 5px; /* Bo tròn góc trên phải của th */
+}
+
+/* Giới hạn chiều rộng của cột */
+/* Cải thiện ngắt dòng cho thẻ <td> với class 'title' */
+.note-table td.title {
+    max-width: 250px; /* Giới hạn độ rộng của td có class 'title' */
+    word-wrap: break-word; /* Ngắt từ khi cần */
+    white-space: normal; /* Cho phép ngắt dòng trong nội dung */
+}
+
+
+/* Giới hạn chiều rộng của cột */
+
+
+/* Button Styles */
+.btn {
+    text-decoration: none;  /* Loại bỏ gạch chân */
+    padding: 8px 15px;
+    color: #000;  /* Chữ màu đen */
+    border: 2px solid #000;  /* Viền đen */
+    background-color: transparent;  /* Nền trong suốt */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s ease; /* Hiệu ứng chuyển màu */
+    margin-right: 10px;
+	white-space: nowrap; /* Đảm bảo nút không bị ngắt dòng */
+}
+
+.btn-view {
+    background-color: #9FB6CD; /* Màu xanh dương nhạt */
+    color: #fff;
+    border: 2px solid #9FB6CD;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-decoration: none; /* Loại bỏ gạch chân */
+    margin-right: 10px;
+}
+.btn-view:hover {
+    background-color: #6C7B8B; /* Màu xanh đậm hơn khi hover */
+    border-color: #6C7B8B;
+}
+
+/* Nút "Xóa" */
+.btn-delete {
+    background-color: #CD5C5C; /* Màu đỏ */
+    color: #fff;
+    border: 2px solid #CD5C5C;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-decoration: none; /* Loại bỏ gạch chân */
+    margin-right: 10px;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b; /* Màu đỏ đậm hơn khi hover */
+    border-color: #c0392b;
+}
+
+/* Nút "Sao chép URL" ban đầu */
+/* Đảm bảo các phần tử trong nút nằm cạnh nhau và căn giữa */
+.btn-copy {
+    display: inline-flex;
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    background-color: transparent;
+    color: #000;
+    border: 1px solid #000;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 10px;
+    flex-shrink: 0;
+    width: auto;
+	transition: all 0.3s ease-in-out; /* Hiệu ứng mượt mà khi thay đổi trạng thái */
+}
+.btn-copy .icon {
+    margin-right: 5px; /* Khoảng cách giữa icon và văn bản */
+}
+
+.btn-copy .icon-done {
+    margin-right: 5px; /* Khoảng cách giữa biểu tượng "Đã sao chép" và văn bản */
+}
+.btn-copy.copysuccessfully {
+    color: #4CAF50; /* Màu chữ xanh khi sao chép thành công */
+    border-color: #4CAF50; /* Viền xanh khi sao chép thành công */
+    background-color: transparent; /* Thêm màu nền sáng cho nút khi sao chép thành công */
+}
+
+/* Ẩn biểu tượng chia sẻ khi sao chép thành công và hiển thị biểu tượng đã sao chép */
+.btn-copy.copysuccessfully .icon {
+    display: none; /* Ẩn biểu tượng chia sẻ */
+}
+
+.btn-copy.copysuccessfully .icon-done {
+    display: inline-block; /* Hiển thị biểu tượng "Đã sao chép" */
+}
+
+/* Biểu tượng "Đã sao chép" */
+.icon-done {
+    margin-left: 5px; /* Khoảng cách giữa biểu tượng và văn bản */
+}
+
+
+/* Hiệu ứng hover của nút "Sao chép URL" */
+.btn-copy:hover {
+    background-color: transparent;
+    color: #000;
+    border-color: #000;
+    transform: scale(1.03); /* Phóng to nhẹ khi hover */
+    transition: transform 0.3s ease;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start; /* Căn trái nếu cần */
+    align-items: center;
+    width: 100%; /* Cố định chiều rộng của container */
+}
+
+.btn-container {
+    display: inline-block;
+}
+
+.hide {
+    display: none !important;
+}
+
+
+/* Success Alert */
+.alert-success {
+    background-color: #2ecc71;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.alert-error {
+    background-color: #EE4000;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.note-link {
+    color: #5dade2; /* Màu xanh dương nhạt */
+    text-decoration: none; /* Xóa gạch chân */
+}
+
+.note-link:hover {
+    color: #3498db; /* Màu xanh dương đậm khi hover */
+    text-decoration: underline; /* Gạch chân khi hover */
+    text-decoration-color: #3498db; /* Màu gạch chân là xanh dương đậm */
+}
+/* Thiết lập cho modal */
+.modal {
+    display: none; /* Ẩn modal mặc định */
+    position: fixed; /* Đặt modal ở vị trí cố định */
+    z-index: 9999; /* Đảm bảo modal nằm trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Nếu modal quá cao sẽ có thanh cuộn */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền tối mờ */
+}
+
+/* Nội dung của modal */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto; /* Tạo khoảng cách trên và dưới */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Độ rộng của modal, giảm xuống 50% trên các màn hình lớn */
+    max-width: 400px; /* Modal không vượt quá 600px */
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Thêm padding lớn hơn để modal có vẻ rộng hơn */
+    padding: 30px;
+}
+
+/* Nút đóng (x) */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Nút đóng khi hover */
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Nút xác nhận Xóa */
+#confirmDelete {
+    background-color: red; /* Màu đỏ cho nút Xóa */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 12px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#confirmDelete:hover {
+    background-color: darkred;
+}
+
+/* Nút Hủy bỏ */
+#cancelDeleteModal {
+    background-color: orange; /* Màu cam cho nút Hủy */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 12px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#cancelDeleteModal:hover {
+    background-color: darkorange;
+}
+
+/* Căn giữa modal */
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Thêm kiểu cho phần tử chuyển đổi */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.toggle-label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+
+.search-container {
+    display: flex;
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa ô nhập và nút tìm kiếm */
+}
+
+/* Định dạng cho input (Tiêu đề) */
+.search-input {
+    background-color: #ffffff;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 8px 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 350px;
+    transition: all 0.3s ease;
+    cursor: text;
+}
+
+/* Định dạng cho nút tìm kiếm */
+.search-button {
+    background-color: #7AC5CD;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+	margin-left: 5px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Định dạng cho dropdown (Quyền riêng tư) */
+.note-toggle {
+    background-color: #ffffff;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    height: 40px; /* Đảm bảo chiều cao đồng đều với các phần tử khác */
+    cursor: pointer;
+}
+
+/* Giữ nguyên CSS ban đầu cho note-toggle */
+.note-toggle:hover {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+.note-toggle:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #e7f4ff;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #EEEEEE;
+    color: white;
+    box-shadow: 0 0 3px rgb(192, 192, 192); /* Làm sáng khi hover */
+}
+
+
+.pagination li.active a {
+    background-color: #99CCFF;
+    color: white;
+    border-color: #99CCFF;
+    box-shadow: 0 0 3px rgb(255, 128, 255); /* Làm sáng trang đang chọn */
+}
+
+.pagination a:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    pointer-events: none;
+}
+
+
+
+/* Thêm hiệu ứng khi thay đổi nút chia sẻ */
+
+
+/* Media query cho các thiết bị nhỏ hơn (Mobile) */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 80%; /* Giảm độ rộng modal trên các thiết bị nhỏ */
+        padding: 20px; /* Giảm padding cho modal trên thiết bị nhỏ */
+    }
+
+    #confirmDelete, #cancelDeleteModal {
+        padding: 10px 20px; /* Giảm kích thước nút trên thiết bị nhỏ */
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%; /* Modal rộng hơn một chút trên các màn hình cực nhỏ */
+    }
+
+    #confirmDelete, #cancelDeleteModal {
+        padding: 8px 18px; /* Nút nhỏ hơn trên màn hình cực nhỏ */
+        font-size: 14px;
+    }
+}
+
+
+/* Responsive Styles */
+@media only screen and (max-width: 1200px) {
+    .sidebar {
+        width: 180px; /* Điều chỉnh sidebar cho màn hình vừa */
+        height: calc(100vh - 80px);
+    }
+    .content {
+        margin-left: 200px; /* Điều chỉnh nội dung khi sidebar nhỏ lại */
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .sidebar {
+        width: 160px; /* Giảm chiều rộng sidebar cho các màn hình nhỏ hơn */
+    }
+    .content {
+        margin-left: 180px;
+    }
+}
+
+/* Trên màn hình nhỏ hơn */
+@media only screen and (max-width: 768px) {
+    .sidebar {
+        width: 0; /* Ẩn sidebar hoàn toàn trên màn hình nhỏ */
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .sidebar {
+        display: none; /* Ẩn sidebar trên màn hình rất nhỏ */
+    }
+    .content {
+        margin-left: 0;
+        padding: 10px;
+    }
+}

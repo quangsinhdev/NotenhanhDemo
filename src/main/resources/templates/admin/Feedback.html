@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin Panel Notenhanh.com - Users</title>
+	<link rel="stylesheet" href="/css/paneladmin.css">
+	<script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<!-- Navbar -->
+	<nav class="navbar">
+		<div class="logo">
+			<a href="/dashboard"><img src="/images/weblogo.png" alt="Logo Website"></a>
+
+		</div>
+		<ul class="nav-links">
+			<li><a href="/dashboard">Dashboard</a></li>
+			<li><a href="/logout">Logout</a></li>		</ul>
+
+	</nav>
+
+	<!-- Sidebar -->
+	<aside class="sidebar">
+		<ul>
+			<li><a href="/admin"><i class="fa-regular fa-font-awesome"></i>Panel Admin</a></li>
+			<li><a href="/admin/users"><i class="fa-regular fa-circle-user"></i>User Management</a></li>
+			<li><a href="/admin/notes"><i class="fa-solid fa-file-pen"></i>Note Management</a></li>
+			<li><a href="/admin/settings"><i class="fa-solid fa-wrench"></i>Web Settings</a></li>
+			<li><a href="/admin/feedback"><i class="fa-regular fa-heart"></i>Feedback</a></li>
+		</ul>
+	</aside>
+
+	<!-- Main Content -->
+	<div class="main-content">
+		<!-- Dashboard Header -->
+		<div class="dashboard-header">
+			<h1><span class="highlight">Hey Folks,</span> Welcome to Admin Panel</h1>
+		</div>
+
+		<!-- Stats Panel -->
+		<div class="stats-panel">
+			<div class="stats-card">
+				<h3 th:text="${usersTotal}">Người dùng</h3>
+				<p><i class="fa-regular fa-user"></i>Người dùng</p>
+			</div>
+
+			<div class="stats-card">
+				<h3 th:text="${noteTotal}">Tổng số ghi chú</h3>
+				<p><i class="fa-regular fa-note-sticky"></i>Tổng số ghi chú</p>
+			</div>
+
+			<div class="stats-card">
+				<h3 th:text="${reviewTotal}">Tổng số đánh giá</h3>
+				<p><i class="fa-regular fa-comments"></i>Tổng số đánh giá</p>
+			</div>
+		</div>
+
+		<h3>Danh sách Feedback</h3>
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Feedback title</th>
+						<th>Fullname</th>
+						<th>Email contact</th>
+						<th>Username</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="review : ${AllFeedback}">
+						<td th:text="${review.id}">ID</td><td>
+    <a th:href="@{/admin/feedback/feedbackdetails/{id}(id=${review.id})}" th:text="${review.title}">Tiêu đề feedback</a></td>
+						<td th:text="${review.user.fullname}">Họ tên nickname người đánh giá</td>
+						<td th:text="${review.email}">Email liên hệ</td>
+						<td th:text="${review.user.username}">Username</td>
+
+					</tr>
+					<!-- Thêm các dòng khác cho từng người dùng -->
+				</tbody>
+			</table>
+				<div class="pagination">
+   <ul th:if="${totalPageReviewsAdmin > 0}">
+      <!-- Lặp qua các trang -->
+      <li th:each="i : ${#numbers.sequence(1, totalPageReviewsAdmin)}"
+          th:classappend="${i == currentPageReviewsAdmin + 1} ? 'active' : ''">
+          <a th:href="@{/admin/feedback(page=${i - 1}, size=15)}" th:text="${i}">1</a>
+      </li>
+   </ul>
+</div>
+			<div id="statusModal" class="modal">
+				<div class="modal-content">
+					<span class="close" onclick="closeModal()">&times;</span>
+					<h3 id="modalTitle">Xác nhận thay đổi trạng thái tài khoản</h3>
+					<p id="modalMessage"></p>
+					<button id="confirmStatus" class="btn btn-lock">Xác nhận</button>
+					<button id="cancelStatusModal" class="btn btn-cancel">Hủy bỏ</button>
+				</div>
+			</div>
+
+			<!-- Modal Chuyển đổi Role -->
+			<div id="roleModal" class="modal">
+				<div class="modal-content">
+					<span class="close" onclick="closeRoleModal()">×</span>
+					<h3 id="roleModalTitle">Xác nhận thay đổi vai trò</h3>
+					<p id="roleModalMessage">Chọn vai trò mới cho tài khoản này:</p>
+
+					<!-- Thêm select để chọn Role -->
+					<select id="roleSelect" class="form-control">
+						<option value="ADMIN">Admin</option>
+						<option value="USER">User</option>
+					</select>
+
+					<button id="confirmRoleChange" class="btn btn-lock">Xác nhận</button>
+					<button id="cancelRoleModal" class="btn btn-cancel">Hủy bỏ</button>
+				</div>
+			</div>
+
+
+
+		</div>
+		
+	</div>
+	<script>
+		let userIdToChangeStatus = null; // Biến lưu trữ userId
+		let statusToChange = null; // Biến lưu trữ trạng thái cần thay đổi
+
+		// Mở modal xác nhận khóa hoặc mở khóa tài khoản
+		function openStatusModal(userId, status) {
+			userIdToChangeStatus = userId; // Lưu userId người dùng cần thay đổi trạng thái
+			statusToChange = status; // Lưu trạng thái cần thay đổi
+
+			const modalTitle = document.getElementById('modalTitle');
+			const modalMessage = document.getElementById('modalMessage');
+
+			// Tùy thuộc vào trạng thái, hiển thị tiêu đề và thông báo tương ứng
+			if (status === 'DISABLED') {
+				modalTitle.textContent = 'Xác nhận khóa tài khoản';
+				modalMessage.textContent = 'Bạn có chắc chắn muốn khóa tài khoản này không?';
+			} else {
+				modalTitle.textContent = 'Xác nhận mở khóa tài khoản';
+				modalMessage.textContent = 'Bạn có chắc chắn muốn mở khóa tài khoản này không?';
+			}
+
+			document.getElementById('statusModal').style.display = 'block'; // Hiển thị modal
+		}
+
+		// Đóng modal
+		function closeModal() {
+			document.getElementById('statusModal').style.display = 'none'; // Ẩn modal
+		}
+
+		// Xử lý khi người dùng nhấn nút xác nhận thay đổi trạng thái
+		document.getElementById('confirmStatus').onclick = function () {
+			if (userIdToChangeStatus && statusToChange) {
+				fetch('/admin/users/changeStatus', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					body: `userId=${userIdToChangeStatus}&status=${statusToChange}`
+				})
+					.then(response => {
+						if (response.ok) {
+							window.location.reload();  // Tải lại trang sau khi thay đổi trạng thái thành công
+						} else {
+							alert('Có lỗi xảy ra khi thay đổi trạng thái.');
+						}
+					})
+					.catch(error => {
+						console.error('Lỗi:', error);
+						alert('Có lỗi xảy ra.');
+					});
+
+				closeModal();  // Đóng modal sau khi xác nhận
+			}
+		};
+
+		// Đóng modal khi người dùng nhấn nút hủy
+		document.getElementById('cancelStatusModal').onclick = function () {
+			closeModal();  // Đóng modal mà không thực hiện bất kỳ thay đổi nào
+		};
+
+		// Hàm mở modal khi người dùng muốn thay đổi trạng thái
+		function changeStatus(element, status) {
+			const userId = element.getAttribute('data-id');
+			openStatusModal(userId, status);  // Mở modal xác nhận thay đổi trạng thái
+		}
+
+
+		let userIdToChangeRole = null;  // Biến lưu trữ userId
+
+		function openRoleModal(userId, currentRole) {
+			userIdToChangeRole = userId;
+
+			const roleModalTitle = document.getElementById('roleModalTitle');
+			const roleModalMessage = document.getElementById('roleModalMessage');
+			const roleSelect = document.getElementById('roleSelect');
+
+			// Đặt giá trị mặc định của select là role hiện tại
+			if (currentRole === 'ADMIN') {
+				roleModalTitle.textContent = 'Xác nhận chuyển thành Người dùng';
+				roleModalMessage.textContent = 'Bạn có chắc chắn muốn thay đổi vai trò của tài khoản này thành Người dùng?';
+				roleSelect.value = 'USER';  // Set mặc định là User nếu hiện tại là Admin
+			} else {
+				roleModalTitle.textContent = 'Xác nhận chuyển thành Admin';
+				roleModalMessage.textContent = 'Bạn có chắc chắn muốn thay đổi vai trò của tài khoản này thành Admin?';
+				roleSelect.value = 'ADMIN';
+			}
+
+			document.getElementById('roleModal').style.display = 'block';
+		}
+
+		function closeRoleModal() {
+			document.getElementById('roleModal').style.display = 'none';
+		}
+
+		// Xử lý khi nhấn "Xác nhận"
+		document.getElementById('confirmRoleChange').onclick = function () {
+			const selectedRole = document.getElementById('roleSelect').value; // Lấy giá trị từ select
+
+			fetch('/admin/users/updaterole', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: `userId=${userIdToChangeRole}&role=${selectedRole}`
+			})
+				.then(response => {
+					if (response.ok) {
+						window.location.reload();  // Tải lại trang sau khi thay đổi role thành công
+					} else {
+						alert('Có lỗi xảy ra khi thay đổi vai trò.');
+					}
+				})
+				.catch(error => {
+					console.error('Lỗi:', error);
+					alert('Có lỗi xảy ra.');
+				});
+
+			closeRoleModal();  // Đóng modal sau khi xác nhận
+		};
+
+		// Hủy bỏ thay đổi và đóng modal
+		document.getElementById('cancelRoleModal').onclick = function () {
+			closeRoleModal();  // Đóng modal mà không thực hiện thay đổi nào
+		};
+
+		// Hàm gọi modal khi cần thay đổi role
+		function changeRole(element) {
+			const userId = element.getAttribute('data-id');
+			const currentRole = element.getAttribute('data-role');
+			openRoleModal(userId, currentRole);  // Mở modal thay đổi vai trò
+		}
+
+
+	</script>
+
+</body>
+
+</html>

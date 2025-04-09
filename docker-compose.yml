@@ -1,0 +1,53 @@
+services:
+  mysql:
+    image: mysql:8.0.41
+    container_name: mysql-container
+    environment:
+      MYSQL_DATABASE: mysql
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - springboot-network
+  springboot-app:
+    image: notenhanh
+    container_name: springboot-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3307/mysql
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_MAIL_USERNAME: notenhanh38@gmail.com
+      SPRING_MAIL_PASSWORD: kasj losu devu svpx
+      SPRING_MAIL_SMTP_AUTH: true
+      SPRING_MAIL_SMTP_STARTTLS_ENABLE: true
+      SPRING_MAIL_SMTP_SSL_ENABLE: false
+      GOOGLE_CLIENT_ID: 1058638136674-9anisu4bdd66ibqibpihecmqgvp43f4m.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      GOOGLE_REDIRECT_URI: https://localhost:8443/login/oauth2/code/google
+      FACEBOOK_CLIENT_ID: 636915345516037
+      FACEBOOK_CLIENT_SECRET: 1f49b2bb20d69193774b40cc0cd93e2f
+      FACEBOOK_REDIRECT_URI: https://localhost:8443/login/oauth2/code/facebook
+      SERVER_PORT: 8443
+      SSL_ENABLED: true
+      SSL_KEY_STORE: file:/keystore.jks
+      SSL_KEY_STORE_PASSWORD: notenhanh
+      SSL_KEY_STORE_TYPE: JKS
+      SSL_KEY_ALIAS: myapp
+      LOGIN_FAILED_COUNT_ATTEMPT: 5
+      LOCK_TIME: 10
+    depends_on:
+      - mysql
+    ports:
+      - 8443:8443
+    networks:
+      - springboot-network
+
+networks:
+  springboot-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đăng nhập | Login</title>
+	<link rel="stylesheet" href="/css/login.css">
+	<script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<div th:if="${param.oauth2error}" id="notification-logout" class="notification-logout logout-success fadeIn">
+		<p>Đăng nhập không thành công. Vui lòng thử lại</p>
+	</div>
+	<div th:if="${param.locked}" id="notification-oauth2locked" class="notification-oauth2locked logout-success fadeIn">
+		<p>Đăng nhập thất bại: Tài khoản của bạn đã bị khóa</p>
+	</div>
+	<div th:if="${param.logout}" id="notification-logout" class="notification-logout logout-success fadeIn">
+		<p>Đăng xuất thành công! See you soon</p>
+	</div>
+	<form th:action="@{/login/authenticate}" method="post" class="login-form" id="login-form">
+		<h1 class="login-title">ĐĂNG NHẬP <i class="fa-solid fa-arrow-right-to-bracket"></i></h1>
+		<div class="input-box">
+			<i class="fa-regular fa-user"></i>
+			<input type="text" name="username" id="login-username" placeholder="Tài khoản" th:value="${username}"
+				minlength="8" maxlength="50" pattern="^[a-zA-Z0-9]+$" required>
+		</div>
+		<div class="input-box">
+			<i class="fa-solid fa-lock"></i>
+			<input type="password" name="password" id="login-password" placeholder="Mật khẩu ***" th:value="${password}"
+				minlength="8" maxlength="100" required>
+		</div>
+		<div class="remember-forgot-box">
+			<a href="/recovery">Quên mật khẩu ? <i class="fa-regular fa-face-sad-tear"></i></a>
+		</div>
+		<button id="login-submit-button" class="login-btn">Đăng nhập</button>
+		<p class="register">Chưa có tài khoản? <a href="#" id="show-register"><b>Đăng ký ngay</b></a></p>
+		<div class="social-login">
+			<a href="/oauth2/authorization/google" class="social-btn google-btn">
+				<i class="fab fa-google"></i> Đăng nhập qua Google
+			</a>
+			<!---- <a href="/oauth2/authorization/facebook" class="social-btn facebook-btn">
+            <i class="fab fa-facebook-f"></i> Đăng nhập qua Facebook
+        </a> -->
+		</div>
+	</form>
+	<div id="notification-login" class="notification" style="display: none;">
+		<p id="notification-login-text"></p>
+	</div>
+	<div id="register-modal" class="modal" th:style="'display: none;'">
+
+		<form th:action="@{/login/registry}" th:object="${user}" method="post" id="register-form" class="login-form">
+			<h1 class="signup-title">ĐĂNG KÝ <i class="fa-solid fa-arrow-right-to-bracket"></i></h1>
+			<div class="input-box">
+				<i class="fa-solid fa-id-card"></i>
+				<input type="text" name="fullname" id="fullname" placeholder="Họ tên hoặc nickname của bạn"
+					th:value="${fullname}" minlength="4" maxlength="80" pattern="^[\p{L}\s]+$" required>
+			</div>
+			<div class="input-box">
+				<i class="fa-regular fa-envelope"></i>
+				<input type="email" name="email" id="email" placeholder="Email của bạn" th:value="${email}"
+					minlength="6" maxlength="80" pattern="^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]{2,}$" required>
+			</div>
+			<div class="input-box">
+				<i class="fa-regular fa-user"></i>
+				<input type="text" name="username" id="username" placeholder="Tài khoản" th:value="${username}"
+					minlength="8" maxlength="50" pattern="^[a-zA-Z0-9]+$" required>
+			</div>
+			<div class="input-box">
+				<i class="fa-solid fa-lock"></i>
+				<input type="password" name="password" id="password" placeholder="Mật khẩu ***" th:value="${password}"
+					minlength="8" maxlength="100" required>
+			</div>
+			<div class="input-box">
+				<i class="fa-solid fa-lock"></i>
+				<input type="password" name="confirmPassword" id="confirmPassword" placeholder="Nhập lại mật khẩu"
+					th:value="${confirmPassword}" minlength="8" maxlength="100" required>
+			</div>
+			<button class="login-btn" id="submit-button">Tạo tài khoản</button>
+			<p class="instruction-text">
+				<i class="fa-regular fa-flag"></i>
+				<span class="instruction-text-content">Hướng dẫn đăng ký:</span>
+				<i class="fa-solid fa-circle-exclamation info-icon" aria-hidden="true"></i>
+			</p>
+
+			<div class="modal-overlay" id="modalOverlay">
+				<div class="modal-content">
+					<ul>
+						<li>Họ tên, nickname có thể viết dấu nhưng không được phép chứa ký tự đặc biệt</li>
+						<li>Email không được chứa khoảng trắng, ký tự đặc biệt. Ngoại trừ "@" và dấu "."</li>
+						<li>Tài khoản không được chứa khoảng trắng, ký tự đặc biệt</li>
+						<li>Khuyến nghị: Sử dụng mật khẩu có ký tự đặc biệt và khó đoán</li>
+					</ul>
+					<button id="closeModal" class="close-btn">Xác nhận</button>
+				</div>
+			</div>
+
+			<p class="register">Đã có tài khoản? <a href="#" id="show-login"><b>Đăng nhập ngay</b></a></p>
+
+
+		</form>
+		<div id="notification" class="notification" style="display: none;">
+			<p id="notification-text"></p>
+		</div>
+	</div>
+	<div id="g_id_onload" data-client_id="1058638136674-9anisu4bdd66ibqibpihecmqgvp43f4m.apps.googleusercontent.com"
+		data-login_uri="http://localhost:8080/loginoauth2" data-callback="handleCredentialResponse">
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			var isProcessing = false;
+
+			function clearNotification() {
+				$('#notification-text').empty();
+				$('#notification').removeClass('error success locked').hide();
+			}
+
+			$('#register-form').on('submit', function (event) {
+				event.preventDefault();
+
+				if (isProcessing) return;
+
+				isProcessing = true;
+				var submitButton = $('#submit-button');
+				submitButton.prop('disabled', true).text("Đang xử lý...");
+
+				var formData = {
+					fullname: $('#fullname').val(),
+					email: $('#email').val(),
+					username: $('#username').val(),
+					password: $('#password').val(),
+					confirmPassword: $('#confirmPassword').val()
+				};
+
+				clearNotification();
+
+				$.ajax({
+					url: '/login/registry',
+					method: 'POST',
+					data: formData,
+					success: function (response) {
+
+						clearNotification();
+
+						if (response.success) {
+							$('#notification-text').text(response.successMessage);
+							$('#notification').removeClass('error').addClass('success').fadeIn(500).delay(4000).fadeOut(2000);
+							setTimeout(function () {
+								window.location.href = '/login';
+							}, 4000);
+						} else {
+							$('#notification-text').text(response.errorMessage);
+							$('#notification').removeClass('success').addClass('error').fadeIn(500).delay(3000).fadeOut(2000);
+							if (response.errorMessages) {
+								response.errorMessages.forEach(function (msg) {
+									$('#notification-text').append('<br>' + msg);
+								});
+							}
+						}
+					},
+					error: function (xhr, status, error) {
+
+						clearNotification();
+
+						$('#notification-text').text('Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại!');
+						$('#notification').removeClass('success').addClass('error').fadeIn(500).delay(3000).fadeOut(2000);
+					},
+					complete: function () {
+						setTimeout(function () {
+							submitButton.prop('disabled', false).text("Tạo tài khoản");
+							isProcessing = false;
+						}, 2000);
+					}
+				});
+			});
+
+
+
+			var loginButton = $('#login-submit-button'); // Nút đăng nhập có id là 'login-submit-button'
+			var isProcessing = false;
+			var lockInterval;
+
+
+			$('#login-form').on('submit', function (event) {
+				event.preventDefault();
+
+				if (isProcessing) return;
+
+				isProcessing = true;
+
+				var loginData = {
+					username: $('#login-username').val(),
+					password: $('#login-password').val()
+				};
+
+				clearNotification();
+
+				loginButton.prop('disabled', true);
+				$.ajax({
+					url: '/login/authenticate',
+					method: 'POST',
+					data: loginData,
+					success: function (response) {
+
+						loginButton.prop('disabled', false);
+
+						window.location.href = '/dashboard';
+					},
+
+					error: function (xhr, status, error) {
+						var errorMessage = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại!';
+
+						try {
+							var responseJSON = JSON.parse(xhr.responseText);
+							if (responseJSON && responseJSON.message) {
+								errorMessage = responseJSON.message;
+							}
+						} catch (e) {
+						}
+
+						$('#notification-login-text').text(errorMessage);
+						$('#notification-login').removeClass('success').addClass('error').fadeIn().delay(3000).fadeOut();
+
+						if (xhr.status === 403) {
+							var lockTime = responseJSON && responseJSON.lockTime ? responseJSON.lockTime : null;
+
+							if (lockTime) {
+								var currentTime = new Date().getTime();
+								var remainingLockTime = lockTime - currentTime;
+								var remainingMinute = Math.ceil(remainingLockTime / 60000);
+								if (remainingLockTime > 0) {
+									$('#notification-login-text').text('Tài khoản bị tạm khóa vì đăng nhập sai nhiều lần. Thử lại sau ' + remainingMinute + ' phút');
+
+									$('#notification-login').removeClass('success error')
+										.addClass('locked')
+										.fadeIn(1000)
+										.delay(4000)
+										.fadeOut(2000);
+
+									loginButton.prop('disabled', true);
+
+									if (!lockInterval) {
+										lockInterval = setInterval(function () {
+											var newRemainingLockTime = lockTime - new Date().getTime();
+											if (newRemainingLockTime <= 0) {
+												loginButton.prop('disabled', false);
+												clearInterval(lockInterval);
+												lockInterval = null;
+											}
+										}, 1000);
+									}
+								}
+							}
+						} else {
+							loginButton.prop('disabled', true);
+							setTimeout(function () {
+								loginButton.prop('disabled', false);
+							}, 1500);
+						}
+					},
+					complete: function () {
+						isProcessing = false;
+					}
+				});
+			});
+
+
+
+			var notificationLogout = $('#notification-logout');
+			if (notificationLogout.length > 0) {
+				notificationLogout.show();
+				notificationLogout.addClass('fadeIn');
+
+				setTimeout(function () {
+					notificationLogout.removeClass('fadeIn').addClass('fadeOut');
+					setTimeout(function () {
+						notificationLogout.hide();
+						notificationLogout.removeClass('fadeOut');
+					}, 2000);
+				}, 3000);
+			}
+
+			var notificationOAuth2Locked = $('#notification-oauth2locked');
+			if (notificationOAuth2Locked.length > 0) {
+				notificationOAuth2Locked.show();
+				notificationOAuth2Locked.addClass('fadeIn');
+
+				setTimeout(function () {
+					notificationOAuth2Locked.removeClass('fadeIn').addClass('fadeOut');
+					setTimeout(function () {
+						notificationOAuth2Locked.hide();
+						notificationOAuth2Locked.removeClass('fadeOut');
+					}, 2000);
+				}, 3000);
+			}
+
+
+
+			document.getElementById('show-register').addEventListener('click', function (event) {
+				event.preventDefault();
+				document.getElementById('login-form').style.display = 'none';
+				document.getElementById('register-modal').style.display = 'block';
+			});
+
+			document.getElementById('show-login').addEventListener('click', function (event) {
+				event.preventDefault();
+				document.getElementById('register-modal').style.display = 'none';
+				document.getElementById('login-form').style.display = 'block';
+			});
+			$(document).ready(function () {
+				function toggleModal() {
+					var modal = document.getElementById('modalOverlay');
+					modal.classList.toggle('visible');
+				}
+
+				$('.info-icon').on('click', toggleModal);
+
+				$('#closeModal').on('click', function (event) {
+					event.preventDefault();
+					toggleModal();
+				});
+			});
+
+
+
+		});
+	</script>
+
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+</body>
+
+</html>

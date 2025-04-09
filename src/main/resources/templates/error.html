@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="'Notenhanh.com - Alert '">Error Page</title>
+	<link rel="stylesheet" href="/css/errornotification.css">
+</head>
+
+<body class="error-page">
+	<div class="error-container">
+		<div class="error-message">
+			<img th:src="@{/images/oops.png}" alt="oops" width="200" height="200">
+			<p class="error-description" th:text="${titleErrorMessage}">Oops! The page you are looking for could not be
+				found.</p>
+			<p class="error-description" th:text="${errorMessage}">Oops! The page you are looking for could not be
+				found.</p>
+			<p>404 - Không tìm thấy nội dung yêu cầu</p>
+			<button class="go-home-btn" th:onclick="|window.location.href='/dashboard'|">Trở lại Trang chủ</button>
+		</div>
+	</div>
+</body>
+
+</html>

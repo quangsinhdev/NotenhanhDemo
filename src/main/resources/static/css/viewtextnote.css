@@ -1,0 +1,664 @@
+/* General body and font settings */
+/* General body and font settings */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    box-sizing: border-box;
+	line-height: 1.6;
+}
+
+.logo-btn img {
+    height: 45px; 
+    width: auto;
+    border-radius: 5px;
+    object-fit: cover;
+    display: block;
+    margin-right: 50px; /* Khoảng cách mặc định */
+}
+
+/* Điều chỉnh khoảng cách trên màn hình nhỏ hơn */
+@media (max-width: 768px) { 
+    .logo-btn img {
+        height: 35px; /* Thu nhỏ logo */
+        margin-right: 10px; /* Giảm khoảng cách */
+    }
+}
+
+@media (max-width: 480px) { 
+    .logo-btn img {
+        height: 30px; /* Nhỏ hơn nữa trên màn hình điện thoại */
+        margin-right: 5px; /* Giảm khoảng cách hơn */
+    }
+}
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, 
+           #2c3e50,  /* Xanh xám than */
+           #1f3a66,  /* Xanh đen đậm */
+           #34495e,  /* Xanh đen tối */
+           #2c3e50,  /* Xanh xám than */
+           #212f3d,  /* Xanh đen cực đậm */
+           #7f8c8d   /* Xám */
+       ); 
+    padding: 15px 30px;
+    position: fixed;
+    top: 0;
+    left: 0; /* Điều chỉnh sang trái sát màn hình */
+    right: 0; /* Điều chỉnh sang phải sát màn hình */
+    z-index: 1000;
+    width: 100%;  /* Đảm bảo navbar chiếm hết chiều rộng */
+    box-sizing: border-box;
+    border-radius: 0 0 5px 5px;  /* Bo góc trên navbar */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);  /* Bóng mờ tối để làm nổi bật navbar */
+}
+
+
+
+/* Navbar - Links */
+.navbar nav {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
+
+.navbar .nav-links {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar .nav-links li {
+    margin-right: 25px;
+}
+
+.navbar .nav-links li i {
+    margin-left: 8px; /* Khoảng cách giữa icon và văn bản */
+}
+
+.navbar .nav-links li a {
+    color: #fff; /* Màu chữ trắng cho các link */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+	display: inline-block; /* Đảm bảo thẻ <a> nhận transform */
+}
+
+.navbar .nav-links li a:hover {
+    color: #f0f0f0; /* Màu vàng khi hover */
+    transform: scale(1.03); /* Phóng to nhẹ khi hover */
+}
+.navbar .material-icons, .navbar i {
+    color: white; /* Màu trắng cho các icon */
+	
+}
+
+/* Nếu bạn muốn thay đổi màu khi hover */
+.navbar .material-icons:hover, .navbar i:hover {
+    color: #f0f0f0; /* Màu sáng hơn khi hover, bạn có thể thay đổi màu này */
+}
+/* Notification icon (Bell) */
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+	margin-right: 15px;  /* Thêm khoảng cách cho icon bell */
+}
+
+.notification-icon .material-icons {
+    font-size: 24px;
+    color: #fff; /* Màu icon trắng */
+}
+
+.notification-icon #notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+/* User Avatar */
+.user-avatar {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    margin-left: 20px;
+    z-index: 1001;
+}
+
+.user-avatar .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff; /* Bo viền trắng xung quanh avatar */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng bóng cho avatar */
+}
+
+/* Avatar Dropdown */
+.avatar-dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 1000;
+}
+
+.avatar-dropdown.show {
+    display: block;
+}
+
+.avatar-dropdown ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.avatar-dropdown ul li {
+    padding: 10px;
+    text-align: left;
+}
+
+.avatar-dropdown ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.avatar-dropdown ul li:hover {
+    background-color: #f4f4f4;
+}
+
+
+
+/* Sidebar */
+.sidebar {
+    width: 210px;  /* Giảm chiều rộng của sidebar */
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    padding-top: 20px;
+    z-index: 999;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 80px); 
+    box-sizing: border-box;
+    border-radius: 10px 10px 0 0;
+    margin: 0;
+}
+
+
+/* Responsive Layout for Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%; /* Sidebar chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .content {
+        margin-left: 0;
+        margin-top: 120px;
+    }
+}
+
+
+/* Sidebar User Info */
+.sidebar .user-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar .user-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.sidebar .user-info h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.sidebar .user-info p {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Menu */
+.sidebar .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .menu li {
+    margin: 15px 0;
+}
+
+.sidebar .menu li a {
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .menu li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.sidebar .menu li a i {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+/* Main Content */
+.main-container {
+    display: flex;
+    padding-top: 80px; /* Đảm bảo content không bị navbar che */
+}
+
+.content {
+    flex-grow: 1;
+    margin-left: 200px; /* Tạo khoảng cách giữa content và sidebar */
+    padding: 20px;
+}
+
+.create-note {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+.create-note .title {
+    padding: 0;
+    margin-top: 8px;
+	margin-bottom: 8px;
+}
+h3 {
+    font-size: 20px; /* Đặt kích thước chữ lớn để tạo sự nổi bật */
+    font-weight: 500; /* Tăng độ đậm cho chữ */
+    color: #333; /* Màu chữ tối hơn để dễ đọc */
+    border-bottom: 2px solid #ddd; /* Đường viền dưới nhẹ */
+    padding-bottom: 5px; /* Khoảng cách giữa chữ và viền */
+    margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+    font-family: 'Arial', sans-serif; /* Chọn phông chữ dễ nhìn và hiện đại */
+}
+h3:hover {
+    color: #CDB5CD; /* Màu chữ chuyển thành xanh khi hover */
+}
+.h3 i {
+    margin-left: 12px; /* Khoảng cách giữa văn bản và icon */
+    font-size: 22px; /* Kích thước icon */
+}
+
+/* Responsive Layout for Mobile */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .content {
+        margin-left: 0;
+        margin-top: 120px; /* Đảm bảo content không bị navbar che */
+    }
+
+    .user-avatar .avatar {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+.create-note textarea {
+    width: 100%;
+    height: 400px; /* Tăng chiều cao của textarea */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    resize: vertical; /* Cho phép người dùng kéo dài chiều cao */
+	font-family: 'Roboto', sans-serif; /* Thay đổi font chữ thành Roboto */
+}
+.note-type {
+    font-weight: 400;   /* Đậm chữ */
+    font-size: 16px;    /* Kích thước chữ */
+    margin-bottom: 5px; /* Khoảng cách dưới */
+    color: black;        /* Màu chữ */
+    margin-top: 10px;   /* Khoảng cách trên */
+}
+
+.privacy-options {
+	margin-top: 15px;
+	margin-bottom: 10px;
+	font-size: 15px;
+}
+.privacy-options label {
+    margin-bottom: 8px; /* Khoảng cách dưới của nhãn "Quyền riêng tư" */
+    display: block; /* Đảm bảo văn bản và các tùy chọn radio không nằm trên cùng một dòng */
+	
+}
+.note-type-options {
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+/* Đảm bảo bố cục dọc cho các label */
+.privacy-options-wrapper {
+    display: flex;
+	justify-content: flex-start; /* Đảm bảo các phần tử không bị lệch */
+    align-items: center;  /* Căn giữa các phần tử theo chiều dọc */
+    gap: 10px;  /* Khoảng cách giữa các phần tử trong hàng ngang */
+}
+
+/* Căn giữa radio button với văn bản trong label */
+.privacy-options-wrapper label {
+    display: flex;
+    align-items: center;  /* Căn giữa văn bản với radio button */
+	line-height: 18px; /* Đảm bảo văn bản trong label có chiều cao đúng */
+
+}
+
+
+/* Điều chỉnh margin cho radio button */
+.privacy-options-wrapper input[type="radio"] {
+	height: 18px; /* Cùng chiều cao với văn bản */
+	    width: 18px;
+	    margin-top: 0; /* Loại bỏ khoảng cách trên */
+	    vertical-align: middle;
+
+}
+
+
+/* Điều chỉnh khoảng cách giữa icon và văn bản */
+.privacy-options-wrapper i {
+    margin-left: 8px; /* Khoảng cách giữa icon và văn bản */
+	vertical-align: middle; /* Đảm bảo icon căn giữa với văn bản */
+
+}
+
+.note-type-options label {
+    font-weight: 400;
+}
+
+.privacy-options input,
+.note-type-options select {
+    margin-top: 5px;
+    font-size: 15px;
+    padding: 5px;
+}
+
+.note-type-select {
+	font-size: 14px;
+	   font-weight: 400; /* Độ đậm nhẹ */
+	   color: black;
+	   padding: 10px;
+	   width: 100%;
+	   border-radius: 5px;
+	   border: 1px solid #ddd;
+	   background-color: #f9f9f9;
+	   margin-bottom: 5px;
+}
+.tasknote-container {
+    width: 100%; /* Đảm bảo container có chiều rộng tối đa */
+    box-sizing: border-box;
+    padding: 20px; /* Khoảng cách bên trong container */
+    overflow: hidden; /* Ngăn phần tử bị tràn ra ngoài */
+}
+
+
+#textnote-form {
+    width: 100%; /* Đảm bảo form chiếm hết chiều rộng của container */
+    padding: 0; /* Loại bỏ padding mặc định */
+    box-sizing: border-box; /* Bao gồm padding và border trong chiều rộng */
+    background-color: #fff; /* Nền trắng cho form */
+}
+
+#textnote-form .note-input {
+    width: 100%; /* Đảm bảo textarea chiếm hết chiều rộng */
+    padding: 10px;
+    font-size: 15px; /* Đặt kích thước chữ giống như trong select */
+    border: 1px solid #ddd; /* Tạo viền cho textarea */
+    border-radius: 5px; /* Bo góc cho textarea */
+    box-sizing: border-box; /* Bao gồm padding và border trong chiều rộng */
+    resize: vertical; /* Cho phép người dùng kéo dài textarea */
+}
+
+/* Tùy chỉnh placeholder của textarea */
+#textnote-form .note-input::placeholder {
+    font-size: 15px; /* Đặt kích thước chữ placeholder giống như text */
+    color: #aaa; /* Màu sắc placeholder nhẹ nhàng */
+}
+
+
+
+/* Tasknote Input */
+#tasknote-form {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Đảm bảo form chiếm hết chiều rộng của container */
+    box-sizing: border-box; /* Giúp bao gồm cả padding và border trong chiều rộng */
+}
+
+/* Task List */
+.task-list {
+    margin-top: 20px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.task-checkbox {
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
+
+.task-label {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Thêm style cho tasknote input */
+#tasknote-input {
+	min-height: 90px; /* Tăng chiều cao tối thiểu */
+	height: auto; /* Đảm bảo chiều cao có thể thay đổi theo nội dung */
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
+	resize: vertical; /* Cho phép người dùng kéo dài chiều cao */
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Nút thêm công việc */
+#add-task-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#add-task-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Task Line */
+.task-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 2px 0;
+}
+
+/* Task Line Input */
+.task-line[contenteditable="true"] {
+    min-height: 20px;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    flex-grow: 1;
+}
+
+/* Thêm các kiểu cho input task */
+.task-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Task label: khi hoàn thành sẽ đổi màu */
+.task-item input[type="checkbox"]:checked + .task-label {
+    text-decoration: line-through;
+    color: #888;
+}
+
+
+
+
+form .submit-note {
+    background-color: #CDB5CD; /* Màu nền của nút */
+    color: #fff; /* Màu chữ */
+    border: none; /* Không có viền */
+    padding: 10px 20px; /* Khoảng cách bên trong nút */
+    font-size: 16px; /* Kích thước chữ */
+    border-radius: 5px; /* Bo góc */
+    cursor: pointer; /* Con trỏ khi hover */
+    margin-top: 20px; /* Khoảng cách phía trên */
+    width: 100%; /* Chiều rộng của nút */
+    box-sizing: border-box; /* Đảm bảo padding tính vào chiều rộng */
+    display: block; /* Đảm bảo nút là một khối */
+    text-align: center; /* Căn giữa chữ */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng mượt mà */
+    outline: none; /* Loại bỏ viền khi focus */
+}
+
+form .submit-note:hover {
+    background-color: #008B8B; /* Màu nền khi hover */
+    transform:  scale(1.005); /* Đẩy nút lên và phóng to nhẹ */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ khi hover */
+}
+
+form .submit-note:active {
+    transform: translateY(0) scale(1); /* Khôi phục khi nhấn */
+    box-shadow: none; /* Loại bỏ bóng đổ khi nhấn */
+}
+
+.task-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Loại bỏ gạch chân khi checkbox được chọn */
+.task-item input[type="checkbox"]:checked + .task-label {
+    text-decoration: none; /* Đảm bảo không có gạch chân khi checkbox được đánh dấu */
+}
+
+/* Đảm bảo rằng các task-label không có gạch chân mặc định */
+.task-item .task-label {
+
+
+.privacy-select {
+    margin-top: 20px;
+}
+
+.note-type-select {
+    margin-top: 20px;
+}
+}
+
+/* Input Text */
+.input-text {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Bao gồm padding và border trong chiều rộng */
+    background-color: #f9f9f9; /* Nền sáng cho input */
+    transition: border-color 0.3s ease, background-color 0.3s ease; /* Hiệu ứng chuyển đổi cho viền */
+	margin-bottom: 8px;
+	font-family: 'Roboto', sans-serif; /* Thay đổi font chữ thành Roboto */
+
+}
+
+/* Khi hover vào input text */
+.input-text:hover {
+    border-color: #007bff; /* Đổi màu viền khi hover */
+    background-color: #f1f1f1; /* Nền sáng hơn khi hover */
+}
+
+/* Khi input text focus */
+.input-text:focus {
+    border-color: #007bff; /* Đổi màu viền khi focus */
+    outline: none; /* Loại bỏ outline mặc định */
+    background-color: #fff; /* Nền trắng khi focus */
+}
+.alert-success {
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 10px;  /* Giảm padding */
+    border-radius: 5px;
+    margin-top: 10px;
+  margin-bottom: 10px;
+    font-size: 15px;     /* Giảm kích thước font */
+    line-height: 1.3;    /* Điều chỉnh chiều cao dòng */
+}
+
+.alert-error {
+    background-color: #EE4000;
+    color: white;
+    padding: 10px 10px;  /* Giảm padding */
+    border-radius: 5px;
+    margin-top: 10px;
+  margin-bottom: 10px;
+    font-size: 15px;     /* Giảm kích thước font */
+    line-height: 1.3;    /* Điều chỉnh chiều cao dòng */
+}

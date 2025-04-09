@@ -1,0 +1,583 @@
+/* Thiết lập chung cho tất cả phần tử */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Thiết lập chung cho body */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background: url('https://images.pexels.com/photos/5187173/pexels-photo-5187173.jpeg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Container chính với Flexbox */
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    padding: 0 20px;
+    overflow-y: auto;
+    background: transparent;
+}
+
+/* Profile Info */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);  /* Nền bán trong suốt để giúp nổi bật */
+    padding: 20px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Các nút trong suốt, viền trắng */
+.settings {
+    display: flex;
+    gap: 20px;  /* Khoảng cách giữa các nút */
+    justify-content: center;  /* Căn giữa các nút */
+    width: 100%;
+    margin-top: 20px;  /* Khoảng cách trên */
+}
+
+.settings .btn {
+    background: transparent;
+    border: 2px solid white;  /* Viền trắng */
+    color: white;  /* Màu chữ trắng */
+    font-size: 1rem;
+    font-weight: 520;
+    padding: 10px 20px;  /* Giảm padding cho nút vừa phải */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: auto;
+    display: inline-flex;
+    align-items: center;  /* Căn giữa các phần tử trong nút */
+}
+
+/* Khoảng cách giữa icon và văn bản */
+.settings .btn i {
+    margin-left: 8px;  /* Khoảng cách 5px giữa icon và văn bản */
+}
+
+.settings .btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);  /* Nền mờ khi hover */
+    color: white;  /* Màu chữ trắng khi hover */
+    transform: scale(1.03);  /* Phóng to chữ nhẹ */
+    text-shadow: 0 0 3px white, 0 0 6px white;  /* Làm chữ sáng hơn với text-shadow */
+    border-color: whitesmoke;
+}
+
+
+/* Media Queries cho responsive */
+@media (max-width: 768px) {
+    .settings {
+        flex-direction: column;  /* Đặt các nút vào cột trên màn hình nhỏ */
+        gap: 10px;
+    }
+
+    .settings .btn {
+        font-size: 0.9rem;  /* Giảm kích thước chữ cho các nút trên mobile */
+        padding: 8px 15px;  /* Giảm padding trên mobile */
+    }
+}
+
+
+/* Avatar */
+.profile-info .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.profile-info img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Chi tiết người dùng */
+.profile-info .details {
+    text-align: center;
+    background: transparent;
+}
+
+.profile-info .details h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* Thêm shadow để chữ nổi bật hơn */
+}
+
+.profile-info .details p {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Status */
+.status {
+    font-size: 0.95rem;
+    font-weight: 550;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+}
+
+.status i {
+    margin-left: 5px;
+    color: white !important;
+}
+
+/* Email */
+.email {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 550;
+    margin-left: 5px;
+    background: transparent;
+}
+
+.email i {
+    margin-right: 3px;
+    color: #FF99F5;
+}
+
+/* Grid Dữ Liệu */
+.data-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    background: transparent;
+}
+
+.data-grid div {
+    background-color: rgba(0, 0, 0, 0.5); /* Giữ nền bán trong suốt */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid white;
+}
+
+.data-grid div h4 {
+    font-size: 1.1rem;
+    color: white;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.data-grid div p {
+    font-size: 1.0rem;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Định dạng modal */
+.modal {
+    display: none;  /* Mặc định modal không hiển thị */
+    position: fixed;  /* Vị trí cố định trên màn hình */
+    z-index: 1; /* Đảm bảo modal nằm trên các phần tử khác */
+    left: 0;
+    top: 0;
+    width: 100%; /* Đảm bảo modal chiếm toàn bộ chiều rộng */
+    height: 100%; /* Đảm bảo modal chiếm toàn bộ chiều cao */
+    background-color: rgba(0, 0, 0, 0.4); /* Nền mờ đen phía sau modal */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 60%; /* Chiều rộng modal chiếm 70% màn hình */
+    max-width: 500px; /* Chiều rộng tối đa của modal */
+    max-height: 90%; /* Chiều cao tối đa của modal */
+    overflow-y: auto; /* Thêm cuộn dọc nếu nội dung quá dài */
+    text-align: center;
+    
+    position: fixed; /* Đặt vị trí cố định trong viewport */
+    top: 50%; /* Đặt modal ở giữa theo chiều dọc */
+    left: 50%; /* Đặt modal ở giữa theo chiều ngang */
+    transform: translate(-50%, -50%); /* Dịch chuyển modal lại một nửa chiều rộng và chiều cao của nó để căn chính xác */
+    gap: 15px; /* Khoảng cách giữa các phần tử trong modal */
+}
+
+.modal-header, .modal-body, .modal-footer {
+    margin-bottom: 15px;  /* Khoảng cách giữa các phần tử */
+}
+
+.modal-body p {
+    margin-bottom: 15px;  /* Khoảng cách dưới cho phần văn bản */
+}
+
+.modal-footer button {
+    margin: 0 10px;  /* Khoảng cách giữa các nút */
+}
+
+
+/* Đóng modal */
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style cho nút trong modal */
+button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Media Queries cho responsive */
+
+/* Màn hình di động */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%; /* Đảm bảo modal chiếm 90% chiều rộng trên màn hình nhỏ */
+        padding: 15px;
+    }
+
+    button {
+        width: 100%; /* Các nút sẽ chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+        padding: 12px;
+    }
+}
+
+/* Màn hình máy tính bảng (từ 768px - 1024px) */
+@media (max-width: 1024px) {
+    .modal-content {
+        width: 80%; /* Đảm bảo modal chiếm 80% chiều rộng trên màn hình máy tính bảng */
+    }
+}
+
+
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: floralwhite;
+	padding-bottom: 15px;
+}
+
+footer a {
+    text-decoration: none; /* Loại bỏ đường gạch chân mặc định */
+    color: #3498db;
+    font-weight: bold;
+    font-size: 0.9rem;
+    position: relative; /* Để tạo vị trí cho pseudo-element */
+}
+
+footer a:hover {
+    color: #2980b9; /* Thay đổi màu chữ khi hover */
+}
+
+/* Tạo đường gạch chân thu nhỏ */
+footer a::after {
+    content: ""; /* Nội dung rỗng */
+    position: absolute;
+    bottom: 0;
+    left: 50%; /* Căn giữa */
+    transform: translateX(-50%); /* Căn chính xác vào giữa */
+    width: 50%; /* Đặt chiều rộng đường gạch chân (50% chiều rộng chữ) */
+    height: 2px; /* Độ dày của đường gạch chân */
+    background-color: #3498db; /* Màu của đường gạch chân */
+    opacity: 0; /* Ban đầu đường gạch chân ẩn */
+    transition: opacity 0.3s ease, width 0.3s ease; /* Hiệu ứng chuyển động */
+}
+
+footer a:hover::after {
+    opacity: 1; /* Hiển thị đường gạch chân khi hover */
+    width: 70%; /* Chiều rộng đường gạch chân khi hover */
+}
+
+/* Media Queries cho responsive */
+
+/* Tablet (khoảng 768px - 1024px) */
+@media (max-width: 1024px) {
+    .profile-info {
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .profile-info .avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .profile-info .details h3 {
+        font-size: 1.4rem;
+    }
+    
+    .profile-info .details p {
+        font-size: 0.95rem;
+    }
+
+    .data-grid {
+        grid-template-columns: 1fr 1fr;  /* Đảm bảo grid vẫn chia đều trên màn hình nhỏ */
+    }
+
+    .data-grid div {
+        padding: 15px;
+    }
+}
+
+/* Mobile (khoảng 320px - 768px) */
+@media (max-width: 768px) {
+    .profile-info {
+        padding: 15px;
+        margin-top: 10px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .profile-info .avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-info .details h3 {
+        font-size: 1.2rem;
+    }
+
+    .profile-info .details p {
+        font-size: 0.9rem;
+    }
+
+    .data-grid {
+        grid-template-columns: 1fr;  /* Chuyển về 1 cột trên màn hình di động */
+        gap: 15px;
+    }
+
+    .data-grid div {
+        padding: 15px;
+    }
+
+    footer a {
+        font-size: 0.8rem; /* Thu nhỏ font cho footer */
+    }
+}
+
+
+/* Đảm bảo các phần tử khác không bị ảnh hưởng */
+.password-change-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;  /* Khoảng cách giữa các phần tử trong form */
+    background: rgba(0, 0, 0, 0.6);  /* Nền tối bán trong suốt để tăng độ tương phản */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);  /* Thêm bóng đổ nhẹ cho form */
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    color: white;
+    font-family: 'Poppins', sans-serif;  /* Đảm bảo font chữ đẹp */
+    text-align: center;
+}
+
+/* Tiêu đề form */
+.password-change-form h4 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center; /* Đảm bảo tiêu đề căn giữa */
+}
+
+/* Các nhóm form */
+.password-change-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;  /* Tăng khoảng cách giữa nhãn và trường input */
+    text-align: left;  /* Căn lề trái cho các input */
+}
+
+/* Nhãn cho input */
+.password-change-form .form-group label {
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 8px;  /* Thêm khoảng cách giữa nhãn và input */
+}
+
+/* Các input text */
+.password-change-form .form-group input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid white;  /* Viền trắng */
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);  /* Nền trắng mờ để tạo sự tương phản */
+    color: white;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Thêm hiệu ứng focus cho input */
+.password-change-form .form-group input:focus {
+    border-color: #3498db; /* Viền màu xanh khi focus */
+    background: rgba(255, 255, 255, 0.4);  /* Màu nền thay đổi khi focus */
+}
+
+/* Nút submit */
+.password-change-form button {
+    padding: 12px 20px;
+    background: rgba(52, 152, 219, 0.4);  /* Nền trong suốt với màu nền chính */
+    color: white;
+    border: 2px solid white;  /* Viền trắng */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%;  /* Đảm bảo nút chiếm toàn bộ chiều rộng */
+    margin-top: 20px; /* Khoảng cách từ các input đến nút */
+}
+
+/* Hiệu ứng hover cho nút */
+.password-change-form button:hover {
+    background-color: rgba(52, 152, 219, 0.6);  /* Nền chuyển sang đậm hơn khi hover */
+    transform: scale(1.05);  /* Phóng to nút một chút khi hover */
+}
+
+/* Đảm bảo nút chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+@media (max-width: 768px) {
+    .password-change-form button {
+        width: 100%; /* Nút chiếm toàn bộ chiều rộng trên di động */
+    }
+}
+/* Sử dụng font đẹp từ Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Đảm bảo các phần tử khác không bị ảnh hưởng */
+.password-change-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;  /* Khoảng cách giữa các phần tử trong form */
+    background: rgba(0, 0, 0, 0.6);  /* Nền tối bán trong suốt để tăng độ tương phản */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);  /* Thêm bóng đổ nhẹ cho form */
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    color: white;
+    font-family: 'Poppins', sans-serif;  /* Đảm bảo font chữ đẹp */
+    text-align: center;
+}
+
+/* Tiêu đề form */
+.password-change-form h4 {
+    font-size: 1.5rem;
+    font-weight: 550;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center; /* Đảm bảo tiêu đề căn giữa */
+}
+
+/* Các nhóm form */
+.password-change-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;  /* Tăng khoảng cách giữa nhãn và trường input */
+    text-align: left;  /* Căn lề trái cho các input */
+    margin-bottom: 20px;  /* Thêm khoảng cách giữa các nhóm form */
+}
+
+/* Nhãn cho input */
+.password-change-form .form-group label {
+    font-size: 1rem;
+    color: white;
+    font-weight: 550;
+    margin-bottom: 5px;  /* Thêm khoảng cách giữa nhãn và input */
+    padding-left: 5px; /* Thêm khoảng cách bên trái để không bị dính vào viền */
+}
+
+/* Các input text */
+.password-change-form .form-group input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid white;  /* Viền trắng */
+    border-radius: 5px;
+    background-color: transparent;  /* Nền hoàn toàn trong suốt */
+    color: white;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Thêm hiệu ứng focus cho input */
+.password-change-form .form-group input:focus {
+    border-color: #3498db;  /* Viền màu xanh khi focus */
+    background-color: rgba(255, 255, 255, 0.3);  /* Màu nền trong suốt, khi focus */
+}
+
+.password-change-form button {
+    padding: 10px 18px;  /* Giảm padding để nút nhỏ lại */
+    background: transparent;  /* Nền trong suốt */
+    color: white;
+    border: 2px solid white;  /* Viền trắng */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: auto;  /* Đảm bảo nút không chiếm toàn bộ chiều rộng */
+    margin: 10px auto; /* Căn giữa nút theo chiều ngang */
+    display: block;  /* Đảm bảo nút được hiển thị như block element */
+}
+
+.password-change-form button:hover {
+    background-color: rgba(52, 152, 219, 0.5);  /* Tăng độ đậm của nền khi hover */
+	color: white;  /* Màu chữ trắng khi hover */
+	transform: scale(1.04);  /* Phóng to chữ nhẹ */
+}
+
+/* Đảm bảo nút chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+@media (max-width: 768px) {
+    .password-change-form button {
+        width: 100%; /* Nút chiếm toàn bộ chiều rộng trên di động */
+    }
+}
+/* Thêm margin dưới cùng cho footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: floralwhite;
+    padding-bottom: 15px;
+}
+

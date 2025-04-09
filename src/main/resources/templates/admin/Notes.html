@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Notenhanh.com Admin Panel - Notes</title>
+	<link rel="stylesheet" href="/css/paneladmin.css">
+	<script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<!-- Navbar -->
+	<nav class="navbar">
+		<div class="logo">
+			<a href="/dashboard"><img src="/images/weblogo.png" alt="Logo Website"></a>
+
+		</div>
+		<ul class="nav-links">
+			<li><a href="/dashboard">Dashboard</a></li>
+			<li><a href="/logout">Logout</a></li>		</ul>
+
+	</nav>
+
+	<!-- Sidebar -->
+	<aside class="sidebar">
+		<ul>
+			<li><a href="/admin"><i class="fa-regular fa-font-awesome"></i>Panel Admin</a></li>
+			<li><a href="/admin/users"><i class="fa-regular fa-circle-user"></i>User Management</a></li>
+			<li><a href="/admin/notes"><i class="fa-solid fa-file-pen"></i>Note Management</a></li>
+			<li><a href="/admin/settings"><i class="fa-solid fa-wrench"></i>Web Settings</a></li>
+			<li><a href="/admin/feedback"><i class="fa-regular fa-heart"></i>Feedback</a></li>
+		</ul>
+	</aside>
+
+	<!-- Main Content -->
+	<div class="main-content">
+		<!-- Dashboard Header -->
+		<div class="dashboard-header">
+			<h1><span class="highlight">Hey Folks,</span> Welcome to Admin Panel</h1>
+		</div>
+
+		<!-- Stats Panel -->
+		<div class="stats-panel">
+			<div class="stats-card">
+				<h3 th:text="${noteTotal}">Tổng số ghi chú</h3>
+				<p><i class="fa-regular fa-note-sticky"></i>Tổng số ghi chú</p>
+			</div>
+
+			<div class="stats-card">
+				<h3 th:text="${textnoteTotal}">Tổng số ghi chú Textnote</h3>
+				<p><i class="fa-solid fa-file-pen"></i>Tổng số ghi chú Textnote</p>
+			</div>
+
+			<div class="stats-card">
+				<h3 th:text="${tasknoteTotal}">Tổng số ghi chú Tasknote</h3>
+				<p><i class="fa-solid fa-list-check"></i>Tổng số ghi chú Tasknote</p>
+			</div>
+		</div>
+
+		<!-- Data Table -->
+		<h3>Danh sách ghi chú</h3>
+		<h3 class="announce">Vì điều khoản riêng tư, ghi chú sẽ không hiển thị</h3>
+		<h3 class="announce-policy">Due to privacy policy, notes will not be displayed.</h3>
+	</div>
+	</div>
+
+</html>

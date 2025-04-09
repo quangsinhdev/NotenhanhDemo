@@ -1,0 +1,78 @@
+@charset "UTF-8";
+/* Body và các kiểu chung cho trang lỗi */
+.error-page {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    box-sizing: border-box;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container của trang lỗi */
+.error-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Tiêu đề lỗi */
+.error-title {
+    font-size: 80px;
+    font-weight: 600;
+    color: #e74c3c; /* Màu đỏ cho lỗi */
+    margin: 0;
+}
+
+/* Mô tả lỗi */
+.error-description {
+    font-size: 18px;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+/* Nút quay lại trang chủ */
+.go-home-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.go-home-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive layout cho mobile */
+@media (max-width: 768px) {
+    .error-container {
+        padding: 30px;
+    }
+
+    .error-title {
+        font-size: 60px;
+    }
+
+    .error-description {
+        font-size: 16px;
+    }
+
+    .go-home-btn {
+        width: 100%;
+        padding: 14px;
+    }
+}

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Danh sách Ghi chú</title>
+	<link rel="stylesheet" href="/css/notestatistics.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<div class="navbar">
+		<div class="logo-btn">
+			<a href="/dashboard"><img src="/images/weblogo.png" alt="Logo Website"></a>
+		</div>
+
+		<div class="logo-dropdown">
+    <div class="logo" id="logo">
+        <img src="/images/menu.png" alt="Menu">
+    </div>
+
+    <div class="dropdown-content" id="dropdownMenu">
+        <a href="/dashboard">Trang chủ</a>
+        <a href="/client/myprofile">Thông tin cá nhân</a>
+        <a href="/logout">Đăng xuất</a>
+    </div>
+</div>
+	</div>
+
+	<div class="main-container">
+		<div class="sidebar">
+			<div class="user-info">
+				<img th:src="@{${user.avatarphoto}}" alt="User Avatar" class="avatar" id="avatar-icon">
+				<h3 th:text="${user.fullname}">Full Name</h3>
+				<p>Member of Notenhanh.com</p>
+			</div>
+			<ul class="menu">
+				<li><a href="/dashboard"><i class="fa-solid fa-house-circle-check"></i> Trang chủ</a></li>
+				<li><a href="/dashboard"><i class="fa-regular fa-note-sticky"></i> Tạo ghi chú mới</a></li>
+				<li><a href="/notestatistics"><i class="fa-solid fa-list-ul"></i> Danh sách ghi chú</a></li>
+				<li><a href="/feedback"><i class="fa-solid fa-heart"></i> Đánh giá</a></li>
+                <li><a href="/contacts">Liên hệ</a></li>
+			</ul>
+		</div>
+
+		<div class="content">
+			<div class="container">
+				<div th:if="${successMessage}" class="alert alert-success">
+					<p th:text="${successMessage}"></p>
+				</div>
+				<div th:if="${fieldErrors}" class="alert alert-error">
+					<ul class="error-list">
+						<li th:each="error : ${fieldErrors}" th:text="${error}"></li>
+					</ul>
+				</div>
+				<div th:if="${errorMessage}" class="alert alert-error">
+					<p th:text="${errorMessage}"></p>
+				</div>
+				<div th:if="${DeletesuccessMessage}" class="alert alert-success">
+					<p th:text="${DeletesuccessMessage}"></p>
+				</div>
+
+				<h2>Danh sách ghi chú của bạn</h2>
+				<div class="toggle-container">
+    <label class="toggle-label">Hiển thị danh sách </label>
+    <select id="noteType" class="note-toggle">
+        <option value="textnote" th:selected="${type == 'textnote'}">Textnote</option>
+        <option value="tasknote" th:selected="${type == 'tasknote'}">Tasknote</option>
+    </select>
+</div>
+
+<form method="get" action="/notestatistics" id="sortForm">
+    <div class="sort-container">
+        <label for="sortOrder" class="sort-label">Sắp xếp:</label>
+        <select id="sortOrder" name="order" class="sort-select">
+            <option value="asc" th:selected="${order == 'asc'}">Cũ nhất đến mới nhất</option>
+            <option value="desc" th:selected="${order == 'desc'}">Mới nhất đến cũ nhất</option>
+        </select>
+    </div>
+    <input type="hidden" name="type" id="noteType" th:value="${type}" />
+</form>
+
+				<div th:if="${type == 'textnote'}">
+					<h3>Danh sách ghi chú Textnote</h3>
+					<form method="get" action="/notestatistics" id="titleSearchForm">
+    <div class="search-container">
+        <label for="titleFilter" class="search-label">Tìm kiếm theo tiêu đề:</label>
+        <input type="text" id="titleFilter" name="title" class="search-input" placeholder="Nhập tiêu đề..." th:value="${title}">
+        <button type="submit" class="search-button">Tìm kiếm</button>
+    </div>
+</form>
+
+
+<form method="get" action="/notestatistics" id="privacyFilterForm">
+    <div class="toggle-container">
+        <label for="privacyFilter" class="toggle-label">Lọc theo quyền riêng tư:</label>
+        <div class="filter-container">
+            <select id="privacyFilter" name="privacy" class="note-toggle">
+                <option value="" th:selected="${privacy == null or privacy == ''}">Tất cả</option>
+                <option value="PRIVATE" th:selected="${privacy == 'PRIVATE'}">Riêng tư</option>
+                <option value="PUBLIC" th:selected="${privacy == 'PUBLIC'}">Công khai</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+
+
+
+					<table class="note-table">
+						<thead>
+							<tr>
+								<th>Tiêu đề</th>
+								<th>Quyền riêng tư</th>
+								<th>Loại ghi chú</th>
+								<th>Ngày tạo</th>
+								<th>Cập nhật cuối</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+					
+						<tbody>
+							<tr th:if="${#lists.isEmpty(showListTextnote)}">
+								<td colspan="6" class="text-center">Không tìm thấy ghi chú</td>
+							</tr>
+							<tr th:each="note : ${showListTextnote}">
+								<td class="title">
+									<a th:href="@{/view/textnote/{id}(id=${note.id})}" class="note-link"
+										th:text="${note.title}"></a>
+								</td>
+								<td>
+									<span
+										th:text="${note.privacy.name() == 'PRIVATE' ? 'Riêng tư' : 'Công khai'}"></span>
+								</td>
+								<td>
+									<span th:text="${note.type == 'textnote' ? 'Textnote' : 'Tasknote'}"></span>
+								</td>
+								<td th:text="${note.formattedCreatedAt}"></td>
+								<td th:text="${note.formattedUpdatedAt}"></td>
+								<td class="button-container">
+									<a th:href="@{/view/textnote/{id}(id=${note.id})}" class="btn btn-view">Xem ghi
+										chú</a>
+									<a href="#" class="btn btn-delete" th:data-id="${note.id}" th:data-type="${note.type}">Xóa ghi chú</a>
+									<div class="btn-container"
+										th:classappend="${note.privacy.name() == 'PRIVATE' ? 'hide' : ''}">
+										<a href="javascript:void(0)" class="btn btn-copy"
+											th:data-clipboard-text="'https://localhost:8443/guest/view/textnote/' + ${note.url}">
+											<i class="icon fa-regular fa-share-from-square"></i>
+											<span class="button-copyurlshare">Chia sẻ</span>
+										</a>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+												
+					</table>
+					<div class="pagination">
+   <ul th:if="${totalPagesTextnote > 0}">
+    <li th:each="i : ${#numbers.sequence(1, totalPagesTextnote)}"
+        th:classappend="${i == currentPageTextnote} ? 'active' : ''">
+        <a th:href="@{/notestatistics(page=${i - 1}, type='textnote', order=${order}, privacy=${privacy})}" 
+           th:text="${i}">1</a>
+    </li>
+</ul>
+</div>
+				</div>
+
+
+				<div th:if="${type == 'tasknote'}">
+					<h3>Danh sách ghi chú công việc Tasknote</h3>
+					<form method="get" action="/notestatistics" id="titleSearchForm">
+    <div class="search-container">
+        <label for="titleFilter" class="search-label">Tìm kiếm theo tiêu đề:</label>
+        <input type="text" id="titleFilter" name="title" class="search-input" placeholder="Nhập tiêu đề..." th:value="${title}">
+        <button type="submit" class="search-button">Tìm kiếm</button>
+    </div>
+</form>
+
+
+<form method="get" action="/notestatistics" id="privacyFilterForm">
+    <div class="toggle-container">
+        <label for="privacyFilter" class="toggle-label">Lọc theo quyền riêng tư:</label>
+        <div class="filter-container">
+            <select id="privacyFilter" name="privacy" class="note-toggle">
+                <option value="" th:selected="${privacy == null or privacy == ''}">Tất cả</option>
+                <option value="PRIVATE" th:selected="${privacy == 'PRIVATE'}">Riêng tư</option>
+                <option value="PUBLIC" th:selected="${privacy == 'PUBLIC'}">Công khai</option>
+            </select>
+        </div>
+    </div>
+</form>
+					<table class="note-table">
+						<thead>
+							<tr>
+								<th>Tiêu đề</th>
+								<th>Quyền riêng tư</th>
+								<th>Loại ghi chú</th>
+								<th>Ngày tạo</th>
+								<th>Cập nhật cuối</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${#lists.isEmpty(showListTasknote)}">
+								<td colspan="6" class="text-center">Không tìm thấy ghi chú</td>
+							</tr>
+							<tr th:each="note : ${showListTasknote}">
+								<td class="title">
+									<a th:href="@{/view/tasknote/{id}(id=${note.id})}" class="note-link"
+										th:text="${note.title}"></a>
+								</td>
+								<td>
+									<span
+										th:text="${note.privacy.name() == 'PRIVATE' ? 'Riêng tư' : 'Công khai'}"></span>
+								</td>
+								<td>
+									<span th:text="${note.type == 'tasknote' ? 'Tasknote' : 'Textnote'}"></span>
+								</td>
+								<td th:text="${note.formattedCreatedAt}"></td>
+								<td th:text="${note.formattedUpdatedAt}"></td>
+								<td class="button-container">
+									<a th:href="@{/view/tasknote/{id}(id=${note.id})}" class="btn btn-view">Xem ghi
+										chú</a>
+									<a href="#" class="btn btn-delete" th:data-id="${note.id}" th:data-type="${note.type}">Xóa ghi chú</a>
+									<div class="btn-container"
+										th:classappend="${note.privacy.name() == 'PRIVATE' ? 'hide' : ''}">
+										<a href="#" class="btn btn-copy"
+											th:data-clipboard-text="'https://localhost:8443/guest/view/tasknote/' + ${note.url}">
+											<i class="icon fa-regular fa-share-from-square"></i>
+											<span class="button-copyurlshare">Chia sẻ</span>
+										</a>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pagination">
+  <ul th:if="${totalPagesTasknote > 0}">
+    <li th:each="i : ${#numbers.sequence(1, totalPagesTasknote)}"
+        th:classappend="${i == currentPageTasknote} ? 'active' : ''">
+        <a th:href="@{/notestatistics(page=${i - 1}, type='tasknote', order=${order}, privacy=${privacy})}" 
+           th:text="${i}">1</a>
+    </li>
+</ul>
+</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="deleteConfirmModal" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<p>Bạn có chắc muốn xóa ghi chú này không?</p>
+				<button id="confirmDelete">Xác nhận</button>
+				<button id="cancelDeleteModal">Hủy</button>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script>
+const logodropdown = document.querySelector('.logo-dropdown');
+const dropdownMenu = document.querySelector('.dropdown-content');
+
+logodropdown.addEventListener('click', function () {
+    dropdownMenu.classList.toggle('show');
+});
+
+</script>
+	<script>
+document.addEventListener('DOMContentLoaded', function() {
+function submitForm() {
+    var orderValue = document.getElementById("sortOrder").value;
+    var title = document.getElementById("titleFilter").value.trim();
+    var privacy = document.getElementById("privacyFilter").value;
+    var type = document.getElementById("noteType").value;
+
+    var url = '/notestatistics?order=' + orderValue;
+
+    if (title !== "") {
+        url += '&title=' + encodeURIComponent(title);
+    }
+
+    if (privacy !== "") {
+        url += '&privacy=' + encodeURIComponent(privacy);
+    }
+
+    if (type !== "") {
+        url += '&type=' + encodeURIComponent(type);
+    }
+
+    window.location.href = url;
+    
+   updateSelectValues();  // Giữ lại giá trị đã chọn trong các thẻ select
+}
+
+document.getElementById('privacyFilter').addEventListener('change', function() {
+    submitForm();
+});
+
+
+document.getElementById("titleFilter").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+    }
+});
+
+document.getElementById("titleSearchForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    submitForm();
+});
+
+document.getElementById('sortOrder').addEventListener('change', function() {
+    var orderValue = this.value;
+    var typeValue = document.getElementById('noteType').value;
+
+    // Lấy các giá trị khác từ các input khác nếu cần thiết
+    var title = document.getElementById("titleFilter").value.trim();
+    var privacy = document.getElementById("privacyFilter").value;
+
+    var url = '/notestatistics?order=' + orderValue + '&type=' + typeValue;
+
+    if (title !== "") {
+        url += '&title=' + encodeURIComponent(title);
+    }
+
+    if (privacy !== "") {
+        url += '&privacy=' + encodeURIComponent(privacy);
+    }
+
+    window.location.href = url;
+});
+
+
+
+document.getElementById('noteType').addEventListener('change', function() {
+    var selectedType = this.value;
+    var orderValue = document.getElementById("sortOrder").value;
+    var title = document.getElementById("titleFilter").value.trim();
+    var privacy = document.getElementById("privacyFilter").value;
+
+    var url = '/notestatistics?type=' + selectedType;
+
+    if (orderValue) {
+        url += '&order=' + orderValue;
+    }
+
+    if (title !== "") {
+        url += '&title=' + encodeURIComponent(title);
+    }
+
+    if (privacy !== "") {
+        url += '&privacy=' + encodeURIComponent(privacy);
+    }
+
+    window.history.pushState({path: url}, '', url);
+
+    location.reload();
+});
+
+
+
+function getQueryParam(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+function updateSelectValues() {
+    const privacy = getQueryParam('privacy');
+    const selectElement = document.getElementById('privacyFilter');
+    if (privacy) {
+        selectElement.value = privacy;
+    }
+}
+
+window.onload = function() {
+    updateSelectValues();
+};
+
+
+
+var deleteConfirmModal = $("#deleteConfirmModal");
+var deleteBtn = $(".btn-delete");
+var closeBtn = $(".close");
+var confirmDelete = $("#confirmDelete");
+var cancelDeleteModal = $("#cancelDeleteModal");
+
+var deleteUrl = "";
+
+	deleteBtn.on('click', function (event) {
+    event.preventDefault();
+
+    var noteId = $(this).attr('data-id');
+    var noteType = $(this).attr('data-type');
+
+    deleteUrl = '/features/' + noteType + '/delete/' + noteId;
+    deleteConfirmModal.show();
+});
+
+		closeBtn.on('click', function () {
+			deleteConfirmModal.hide();
+		});
+
+		cancelDeleteModal.on('click', function () {
+			deleteConfirmModal.hide();
+		});
+
+		confirmDelete.on('click', function () {
+			window.location.href = deleteUrl;
+
+			deleteConfirmModal.hide();
+		});
+
+		$(window).on('click', function (event) {
+			if ($(event.target).closest("#deleteConfirmModal").length === 0 && !$(event.target).closest(".btn-delete").length) {
+				deleteConfirmModal.hide();
+			}
+		});
+
+
+		function toggleDropdown() {
+			const dropdownMenu = document.getElementById('dropdownMenu');
+
+			if (dropdownMenu.style.display === "block") {
+				dropdownMenu.style.display = "none";
+			} else {
+				dropdownMenu.style.display = "block";
+			}
+		}
+
+		window.onclick = function (event) {
+			const dropdownMenu = document.getElementById('dropdownMenu');
+			const logo = document.getElementById('logo');
+			if (!logo.contains(event.target) && !dropdownMenu.contains(event.target)) {
+				dropdownMenu.style.display = "none";
+			}
+		}
+		});
+	</script>
+	<script>
+		var clipboard = new ClipboardJS('.btn-copy');
+		var isCopied = false;
+		clipboard.on('success', function (e) {
+			if (isCopied) return;
+
+			isCopied = true;
+
+			var buttonText = e.trigger.querySelector('.button-copyurlshare');
+			var icon = e.trigger.querySelector('.icon');
+
+			var iconDone = document.createElement('i');
+			iconDone.classList.add('fa', 'fa-check-circle');
+			iconDone.classList.add('icon-done');
+
+			buttonText.textContent = 'Đã sao chép';
+
+			icon.style.display = 'none';
+			iconDone.style.display = 'inline-block';
+
+			e.trigger.appendChild(iconDone);
+
+			e.trigger.classList.add('copysuccessfully');
+
+			setTimeout(function () {
+				buttonText.textContent = 'Chia sẻ';
+				icon.style.display = 'inline-block';
+				iconDone.remove();
+				e.trigger.classList.remove('copysuccessfully');
+				isCopied = false;
+			}, 2000);
+
+			e.clearSelection();
+		});
+
+		clipboard.on('error', function (e) {
+			alert('Lỗi khi sao chép!');
+		});
+		
+	</script>
+
+</body>
+
+</html>

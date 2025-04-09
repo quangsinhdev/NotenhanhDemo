@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>User Profile</title>
+	<link rel="stylesheet" href="/css/myprofile.css">
+	<script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+	<div class="container">
+		<main>
+			<div class="profile-info">
+				<div class="avatar">
+					<img th:src="@{${avatarphoto}}" alt="User Avatar">
+				</div>
+				<div class="details">
+					<h3 th:text="${fullname}">Full Name</h3>
+					<p>
+						<i class="fa-regular fa-envelope"></i>
+						<span th:text="${email}" class="email">Email</span>
+					</p>
+
+					</p>
+					<p>
+						Trạng thái:
+						<span class="status" th:text="${status}">Status</span>
+						<i class="fa-regular fa-circle-check"></i>
+					</p>
+
+
+
+				</div>
+				<div class="settings">
+					<div class="settings-item">
+						<button class="btn" onclick="window.location.href='/dashboard';">Trang chủ<i
+								class="fa fa-home"></i></button>
+					</div>
+					<div class="settings-item">
+						<button class="btn" onclick="window.location.href='/client/changepassword';">Đổi mật khẩu<i
+								class="fa fa-lock"></i></button>
+					</div>
+					<div class="settings-item">
+						<button class="btn">Xác minh 2 bước (2FA)<i class="fa-solid fa-user-shield"></i></button>
+					</div>
+					<div class="settings-item">
+						<button class="btn" id="logoutBtn" onclick="window.location.href='/logout';">Đăng xuất<i
+								class="fa-solid fa-arrow-right-from-bracket"></i></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="data-grid">
+
+				<div>
+					<h4>Tên tài khoản</h4>
+					<p th:text="${username}">Username</p>
+				</div>
+				<div>
+					<h4>Thời điểm đăng ký</h4>
+					<p th:text="${timecreateat}">Time Create At</p>
+				</div>
+
+				<div>
+					<h4>Role</h4>
+					<p th:text="${role}">User</p>
+				</div>
+
+				<div>
+					<h4>Tổng số ghi chú Tasknote (Total tasknote)</h4>
+					<p th:text="${totaltasknote}">0</p>
+				</div>
+
+				<div>
+					<h4>Tổng số ghi chú Textnote (Total textnote)</h4>
+					<p th:text="${totaltextnote}">0</p>
+				</div>
+
+				<div>
+					<h4>Tổng số ghi chú (Total notes)</h4>
+					<p th:text="${totalnote}">0</p>
+				</div>
+
+				<div>
+					<h4>Phương thức đăng nhập</h4>
+					<p th:text="${loginMethod}">Form-based / OAuth2</p>
+				</div>
+
+				<div>
+					<h4>Xác minh 2 bước (2FA)</h4>
+					<p th:text="${authenticator}">2FA</p>
+				</div>
+			</div>
+			<div class="modal" id="logoutModal">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2>Xác nhận đăng xuất</h2>
+					</div>
+					<div class="modal-body">
+						<p>Bạn có chắc chắn muốn đăng xuất không?</p>
+					</div>
+					<div class="modal-footer">
+						<button id="confirmLogout">Đăng xuất</button>
+						<button id="cancelLogout">Hủy</button>
+					</div>
+				</div>
+			</div>
+
+			<footer>
+				<p>Need help? <a href="#">Contact Support</a></p>
+			</footer>
+		</main>
+	</div>
+	<script>
+		var logoutModal = document.getElementById("logoutModal");
+		var logoutBtn = document.getElementById("logoutBtn");
+		var closeBtn = document.getElementsByClassName("close")[0];
+		var confirmLogout = document.getElementById("confirmLogout");
+		var cancelLogout = document.getElementById("cancelLogout");
+
+		logoutBtn.onclick = function () {
+			logoutModal.style.display = "block";
+		}
+
+		if (closeBtn) {
+			closeBtn.onclick = function () {
+				logoutModal.style.display = "none";
+			}
+		}
+
+		cancelLogout.onclick = function () {
+			logoutModal.style.display = "none";
+		}
+
+		confirmLogout.onclick = function () {
+			window.location.href = '/logout';
+			logoutModal.style.display = "none";
+		}
+
+		window.onclick = function (event) {
+			if (event.target == logoutModal) {
+				logoutModal.style.display = "none";
+			}
+		}
+
+	</script>
+</body>
+
+</html>

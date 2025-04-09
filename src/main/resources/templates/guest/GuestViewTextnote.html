@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>View Textnote</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/guest.css">
+	<script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+	<!-- Navbar -->
+	<header class="navbar">
+		<div class="logo-btn">
+			<img th:src="@{/images/guest.png}" alt="Logo Website">
+		</div>
+		<nav>
+			<ul class="nav-links">
+				<li><a href="/dashboard">Trang chủ<i class="fa-solid fa-house"></i></a></li>
+				<li><a href="/create-note">Tạo ghi chú mới</a></li>
+				<li><a href="/view-notes">Danh sách ghi chú</a></li>
+				<li><a href="/view-notes">Đánh giá</a></li>
+				<li><a href="/view-notes">Liên hệ</a></li>
+				<li><a href="/view-notes">Notenhanh Bug Report<i class="fa-solid fa-medal"></i></a></li>
+				<li><a href="/view-notes">Premium<i class="fa-brands fa-square-web-awesome-stroke"></i></a></li>
+				<li><a href="/view-notes">Donate<i class="fa-solid fa-hand-holding-medical"></i></a></li>
+			</ul>
+		</nav>
+		<div class="notification-icon">
+			<span class="material-icons">notifications</span>
+			<span id="notification-count" class="notification-count">3</span>
+		</div>
+		<div class="user-avatar">
+			<img th:src="@{${avatarphoto}}" alt="User Avatar" class="avatar" id="avatar-icon">
+			<div class="avatar-dropdown">
+				<ul>
+					<li><a href="/client/myprofile">Thông tin cá nhân</a></li>
+					<li><a href="/client/changepassword">Đổi mật khẩu</a></li>
+					<li><a href="/logout">Đăng xuất</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+
+	<div class="main-container">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<div class="user-info">
+				<img th:src="@{${avatarphoto}}" alt="User Avatar" class="avatar">
+				<h3 th:text="${fullname}">Full name</h3>
+				<p th:text="${email}">This is content</p>
+			</div>
+			<ul class="menu">
+				<li><a href="/dashboard"><i class="fa-regular fa-pen-to-square"></i>Tạo ghi chú ngay</a></li>
+				<li><a href="/"><i class="fa-solid fa-list-ul"></i>Về Notenhanh.com</a></li>
+				<li><a href="/feedback"><i class="fa-regular fa-message"></i>Đăng nhập</a></li>
+				<li><a href="/security-report"><i class="fa-regular fa-star"></i>Donate</a></li>
+			</ul>
+		</aside>
+
+		<!-- Main content -->
+		<main class="content">
+			<div class="create-note">
+				<h3>Xem và chỉnh sửa ghi chú Textnote <i class="fa-regular fa-face-smile"></i></h3>
+
+				<div id="message-container" style="display: none;"></div>
+
+				<form id="textnote-form" method="POST" th:attr="data-note-url=${textnote.url}">
+					<div class="note-type-options">
+						<p class="note-type">Loại ghi chú:</p>
+						<select name="type" class="note-type-select" id="note-type-select" disabled>
+							<option value="textnote" selected>Textnote</option>
+						</select>
+					</div>
+
+					<p class="title">Tiêu đề ghi chú</p>
+					<label>
+						<input type="text" name="title" id="title" class="input-text" placeholder="Tiêu đề ghi chú"
+							th:value="${textnote.title}" required>
+					</label>
+
+					<p class="title">Nội dung ghi chú</p>
+					<textarea name="note-text" id="note-input-text" placeholder="Nhập ghi chú của bạn tại đây..."
+						required th:text="${textnote.content}"></textarea>
+
+					<!-- Trường input ẩn để gán giá trị từ textarea -->
+					<input type="hidden" name="content" id="content-hidden">
+					<button class="copy-button" id="copy-btn">Sao chép ghi chú</button>
+					<div id="notification" class="notification-coppied"></div> <!-- Thông báo -->
+					<p>Bạn đang truy cập với tư cách: Khách</p>
+					<p>Bạn được quyền: Xem và cập nhật ghi chú</p>
+					<div class="privacy-options">
+						<label><i class="fa-solid fa-user-gear"></i> Quyền riêng tư: Công khai <i
+								class="fa-solid fa-earth-americas"></i></label>
+					</div>
+
+					<!-- Nút submit -->
+					<button type="submit" class="submit-note">Lưu ghi chú</button>
+				</form>
+			</div>
+		</main>
+	</div>
+
+	<!-- JavaScript -->
+	<script>
+		document.getElementById('copy-btn').addEventListener('click', function (event) {
+			event.preventDefault();
+
+			// Lấy nội dung của textarea
+			var textarea = document.getElementById('note-input-text');
+			textarea.select();
+			textarea.setSelectionRange(0, 99999);
+
+			try {
+				var successful = document.execCommand('copy');
+				var message = successful ? 'Nội dung đã được sao chép!' : 'Không thể sao chép.';
+
+				var notification = document.getElementById('notification');
+				notification.textContent = message;
+				notification.style.display = 'block';
+				setTimeout(function () {
+					notification.style.display = 'none';
+				}, 3000);
+			} catch (err) {
+				var notification = document.getElementById('notification');
+				notification.textContent = 'Lỗi khi sao chép nội dung.';
+				notification.style.display = 'block';
+				setTimeout(function () {
+					notification.style.display = 'none';
+				}, 3000);
+			}
+		});
+
+	</script>
+
+	<script>
+		document.getElementById('note-type-select').addEventListener('change', function () {
+			const selectedType = this.value;
+			if (selectedType === 'textnote') {
+				document.getElementById('textnote-form').style.display = 'block';
+				document.getElementById('tasknote-form').style.display = 'none';
+			} else if (selectedType === 'tasknote') {
+				document.getElementById('tasknote-form').style.display = 'block';
+				document.getElementById('textnote-form').style.display = 'none';
+			}
+		});
+
+		window.addEventListener('DOMContentLoaded', function () {
+			const selectedType = document.getElementById('note-type-select').value;
+			if (selectedType === 'textnote') {
+				document.getElementById('textnote-form').style.display = 'block';
+				document.getElementById('tasknote-form').style.display = 'none';
+			} else if (selectedType === 'tasknote') {
+				document.getElementById('tasknote-form').style.display = 'block';
+				document.getElementById('textnote-form').style.display = 'none';
+			}
+		});
+	</script>
+
+	<script>
+		document.getElementById('textnote-form').addEventListener('submit', function (event) {
+			var noteContent = document.getElementById('note-input-text').value.trim();
+			document.getElementById('content-hidden').value = noteContent;
+			if (!noteContent) {
+				alert("Nội dung ghi chú không được bỏ trống!");
+				event.preventDefault();
+			}
+		});
+	</script>
+	<script>
+		document.getElementById('textnote-form').addEventListener('submit', function (event) {
+			event.preventDefault();
+
+			var title = document.getElementById('title').value.trim();
+			var content = document.getElementById('note-input-text').value.trim();
+			var noteUrl = document.getElementById('textnote-form').getAttribute('data-note-url');
+
+			if (!title || !content) {
+				showMessage('Thông báo', 'Tiêu đề và nội dung không được bỏ trống!', 'error');
+				return;
+			}
+
+			if (!noteUrl) {
+				showMessage('Lỗi', 'URL ghi chú không hợp lệ!', 'error');
+				return;
+			}
+
+			var formData = {
+				"title": title,
+				"content": content
+			};
+
+			fetch(`/guest/update/textnote/${noteUrl}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.status === 'success') {
+						showMessage('Updated successfully', 'Ghi chú đã được cập nhật!', 'success');
+					} else {
+						showMessage('Đã xảy ra lỗi khi cập nhật ghi chú', data.message, 'error');
+					}
+				})
+				.catch(error => {
+					showMessage('Đã xảy ra lỗi khi cập nhật ghi chú', 'Không thể gửi dữ liệu. Vui lòng thử lại.', 'error');
+				});
+		});
+
+
+		function showMessage(title, message, type) {
+			var messageContainer = document.getElementById('message-container');
+			messageContainer.style.display = 'block';
+			messageContainer.innerHTML = `
+        <div class="alert ${type}">
+            <strong>${title}</strong>: ${message}
+        </div>
+    `;
+
+			setTimeout(function () {
+				messageContainer.style.display = 'none';
+			}, 5000);
+		}
+
+	</script>
+</body>
+
+</html>

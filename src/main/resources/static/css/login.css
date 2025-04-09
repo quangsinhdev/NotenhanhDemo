@@ -1,0 +1,499 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', san-serif;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(/images/background-login.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.login-form {
+    background: rgba(64,64,64,0.15);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    padding: 30px;
+    border-radius: 16px;
+    backdrop-filter: blur(25px);
+    text-align: center;
+    color: white;
+    width: 400px;
+    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.15);
+}
+
+.login-form .field {
+    font-size: 16px;
+    color: white;
+    margin: 0;
+    text-align: left;
+	font-weight: 500;
+}
+
+.login-title {
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+.signup-title {
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+.recovery-title {
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+.input-box {
+    margin: 13px 0;
+    position: relative;
+}
+
+
+.input-box input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 12px 12px 12px 45px;
+    border-radius: 99px;
+    outline: 3px solid transparent;
+    transition: 0.3s;
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.input-box input:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.input-box input::-ms-reveal {
+    filter: invert(100%);
+}
+.input-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.input-box .info-icon {
+    position: absolute;
+    right: 15px; /* Đặt icon ở bên phải */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+.info-text {
+    display: none; /* Ẩn khi trang tải */
+    font-size: 14px;
+    color: #f9f9f9;
+    margin-top: 5px;
+    white-space: pre-line; /* Đảm bảo nội dung xuống dòng */
+}
+
+.info-text.visible {
+    display: block; /* Hiển thị khi có class "visible" */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.instruction-text {
+    font-size: 16px;
+    margin-bottom: 15px;
+    display: flex; /* Đặt icon và text cùng một dòng */
+    align-items: center; /* Căn chỉnh icon và text theo chiều dọc */
+    position: relative;
+    margin-top: 15px;
+}
+
+.instruction-text i.fa-flag {
+    margin-right: 5px; /* Tạo khoảng cách giữa icon flag và văn bản */
+}
+
+.instruction-text-content {
+    margin-left: 5px; /* Tạo khoảng trống sau icon flag */
+    font-weight: 500;
+}
+
+.info-icon {
+    cursor: pointer;
+    color: #f0f0f0;
+    margin-left: 10px;
+}
+
+.modal-overlay {
+    display: none; /* Ẩn modal khi không được kích hoạt */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Màu nền mờ */
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    padding: 30px; /* Tăng padding để làm cho nội dung rộng rãi hơn */
+    border-radius: 10px;
+    width: 400px; /* Tăng chiều rộng của modal */
+    max-width: 90%; /* Đảm bảo modal không quá rộng trên màn hình nhỏ */
+    text-align: left; /* Căn lề trái cho toàn bộ nội dung trong modal */
+    color: black;
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng tổng chiều rộng */
+    display: flex;
+    flex-direction: column; /* Đảm bảo các phần tử con xếp theo cột */
+    align-items: flex-start; /* Căn lề trái cho các phần tử con (trừ nút) */
+}
+
+.modal-content ul {
+    padding-left: 20px; /* Thêm khoảng cách bên trái cho danh sách */
+    text-align: left; /* Đảm bảo nội dung trong <ul> cũng căn lề trái */
+}
+
+.modal-content li {
+    margin-bottom: 10px;
+    text-align: left; /* Căn lề trái cho từng mục li */
+}
+
+.close-btn {
+    background-color: #ff5c5c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    align-self: center; /* Căn giữa nút "Đóng" */
+}
+
+
+/* Khi modal được hiển thị */
+.modal-overlay.visible {
+    display: flex;
+}
+
+
+
+
+.remember-forgot-box {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 5px;
+	margin-bottom: 12px; /* Tạo khoảng cách giữa "Quên mật khẩu?" và nút Đăng nhập */
+}
+
+.remember-forgot-box a {
+    text-align: right;
+}
+
+.remember-forgot-box label {
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.remember-forgot-box input {
+    accent-color: white;
+    cursor: pointer;
+}
+
+.remember-forgot-box a {
+    color: white;
+    text-decoration: none;
+}
+
+.remember-forgot-box a:hover {
+    text-decoration: underline;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px 0;
+    background: #CC99CC;
+	border: none;
+	border-radius: 5px; /* Viền bo tròn */
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.login-btn:hover {
+    background: #0B87EC;
+}
+#login-button:disabled {
+    background-color: #ccc; /* Màu nền khi nút bị disabled */
+    color: #777; /* Màu chữ khi nút bị disabled */
+    cursor: not-allowed; /* Thay đổi con trỏ khi nút bị disabled */
+}
+
+.register {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.register a {
+    text-decoration: none;
+    color: white;
+}
+
+.register a:hover {
+    text-decoration: underline;
+}
+
+
+.register::after {
+    content: ''; 
+    display: block;
+    width: 60%;
+    margin: 10px auto;
+    border-bottom: 1px solid white;
+}
+
+.recovery-btn {
+    background: transparent; /* Nền trong suốt, trùng với màu nền */
+    border: 2px solid white; /* Viền trắng */
+    color: white; /* Màu chữ trắng */
+    padding: 12px 25px; /* Padding cho nút (tăng chiều cao và chiều ngang) */
+    font-size: 16px; /* Cỡ chữ lớn hơn */
+    cursor: pointer; /* Con trỏ chuột dạng pointer khi hover */
+    text-transform: uppercase;
+    transition: background 0.3s ease, color 0.3s ease;
+    border-radius: 6px;
+    font-weight: 500; /* Làm chữ đậm hơn */
+    line-height: 1.4; /* Căn chỉnh chiều cao dòng để chữ được phân bổ đều */
+	margin: 5px 0;
+}
+
+.recovery-btn:hover {
+    background: white; /* Nền trắng khi hover */
+    color: black; /* Màu chữ chuyển thành đen khi hover */
+}
+
+.notification {
+    position: fixed;
+    top: 20px; 
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px 30px;
+    background-color: #fff;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    display: none;
+	transition: opacity 0.5s ease, transform 0.3s ease; /* Giảm thời gian fade và di chuyển */
+}
+
+.notification-login {
+    visibility: hidden;  /* Mặc định không hiển thị */
+    opacity: 0;  /* Mờ đi */
+    transition: opacity 0.5s ease, visibility 0s 0.5s; /* Hiệu ứng fade và delay cho visibility */
+}
+
+.notification-login.show {
+    visibility: visible;  /* Khi hiển thị */
+    opacity: 1;  /* Đảm bảo phần tử có thể nhìn thấy */
+    transition: opacity 0.5s ease, visibility 0s 0s; /* Không delay visibility khi hiển thị */
+}
+
+
+
+.modal-popup-recover {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px 30px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    display: none;
+    transition: opacity 1s ease, transform 1s ease; /* Đặt thời gian fade cho modal */
+}
+
+.modal-popup-recover.fadeIn {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0); /* Di chuyển nhẹ lên */
+}
+
+.modal-popup-recover.fadeOut {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px); /* Di chuyển lên trên */
+}
+
+
+/* Thông báo thành công */
+.success {
+    background-color: #33CC33;
+    border: 2px solid #4CAF50;
+    color: #fff;
+}
+
+.error {
+    background-color: #f44336;  /* Màu nền đỏ cho thông báo lỗi */
+    border: 2px solid #d32f2f;  /* Viền màu đỏ đậm */
+    color: #fff;
+}
+
+.locked {
+    background-color: #FF5722;  /* Màu cam đậm cho nền thông báo bị khóa */
+    border: 2px solid #D84315;  /* Màu cam đậm hơn cho viền */
+}
+
+
+.fadeIn {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0); /* Không gian di chuyển nhẹ */
+}
+
+.fadeOut {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px); /* Di chuyển lên trên */
+}
+
+#notification-text {
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.notification-login {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    background-color: #f44336;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    display: none; /* Ban đầu ẩn thông báo */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.notification-logout {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    background-color: 	#778899;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    display: none; /* Ban đầu ẩn thông báo */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.notification-oauth2locked {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    background-color: #EE7600;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    display: none; /* Ban đầu ẩn thông báo */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#notification-login p {
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-btn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px; /* Góc vuông */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none; /* Bỏ gạch chân của link */
+    border: 2px solid transparent; /* Biên trong suốt */
+    background: rgba(255, 255, 255, 0.15); /* Nền trong suốt một chút */
+}
+
+/* Biểu tượng trong nút */
+.social-btn i {
+    margin-right: 10px; /* Khoảng cách giữa biểu tượng và văn bản */
+    font-size: 20px;
+}
+
+/* Google Button */
+.google-btn {
+    color: white;
+}
+
+.google-btn:hover {
+    background-color: #db4437; /* Nền đỏ khi hover */
+    color: white; /* Màu chữ vẫn giữ trắng */
+    border-color: #db4437; /* Viền đỏ khi hover */
+}
+
+/* Facebook Button */
+.facebook-btn {
+    color: white;
+}
+
+.facebook-btn:hover {
+    background-color: #3b5998; /* Nền xanh khi hover */
+    color: white; /* Màu chữ vẫn giữ trắng */
+    border-color: #3b5998; /* Viền xanh khi hover */
+}

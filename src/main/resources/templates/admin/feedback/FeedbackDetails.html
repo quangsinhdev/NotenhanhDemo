@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Notes</title>
+    <link rel="stylesheet" href="/css/paneladmin.css">
+    <script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/dashboard"><img src="/images/weblogo.png" alt="Logo Website"></a>
+        </div>
+        <ul class="nav-links">
+			<li><a href="/dashboard">Dashboard</a></li>
+			<li><a href="/logout">Logout</a></li>        </ul>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul>
+            <li><a href="/admin"><i class="fa-regular fa-font-awesome"></i>Panel Admin</a></li>
+            <li><a href="/admin/users"><i class="fa-regular fa-circle-user"></i>User Management</a></li>
+            <li><a href="/admin/notes"><i class="fa-solid fa-file-pen"></i>Note Management</a></li>
+            <li><a href="/admin/settings"><i class="fa-solid fa-wrench"></i>Web Settings</a></li>
+            <li><a href="/admin/feedback"><i class="fa-regular fa-heart"></i>Feedback</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1><span class="highlight">Hey Folks,</span> Welcome to Admin Panel</h1>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+            <div class="stats-card">
+                <h3 th:text="${usersTotal}">Người dùng</h3>
+                <p><i class="fa-regular fa-user"></i>Người dùng</p>
+            </div>
+
+            <div class="stats-card">
+                <h3 th:text="${noteTotal}">Tổng số ghi chú</h3>
+                <p><i class="fa-regular fa-note-sticky"></i>Tổng số ghi chú</p>
+            </div>
+
+            <div class="stats-card">
+                <h3 th:text="${reviewTotal}">Tổng số đánh giá</h3>
+                <p><i class="fa-regular fa-comments"></i>Tổng số đánh giá</p>
+            </div>
+        </div>
+
+        <div class="feedback-detail-container">
+            <!-- Feedback Title & ID -->
+            <div class="feedback-detail-header">
+                <h2>Chi tiết Feedback</h2>
+                <div class="feedback-id" th:text="'#' + ${feedback.id}"></div>
+            </div>
+
+            <!-- Thông tin người dùng -->
+            <div class="feedback-info">
+                <div class="info-item">
+                    <label for="user-name">Tên người dùng:</label>
+                    <p class="info-text" th:text="${feedback.user.username}"></p>
+                </div>
+
+                <div class="info-item">
+                    <label for="user-email">Email liên hệ:</label>
+                    <p class="info-text" th:text="${feedback.email}"></p>
+                </div>
+
+                <div class="info-item">
+                    <label for="user-fullname">Họ tên hoặc Nickname:</label>
+                    <p class="info-text" th:text="${feedback.user.username}"></p>
+                </div>
+  					<div class="info-item">
+                    <label for="user-fullname">Tiêu đề Feedback</label>
+                    <p class="info-text" th:text="${feedback.title}"></p>
+                </div>
+            </div>
+
+            <!-- Nội dung Feedback -->
+            <div class="feedback-content">
+                <h3>Nội dung Feedback</h3>
+                <p th:text="${feedback.content}"></p>
+            </div>
+
+            <!-- Nút quay lại -->
+            <a href="/admin/feedback" class="feedback-back-button">Quay lại List</a>
+        </div>
+	<h3 class="announce-policy">Software developed by <a href="https://www.linkedin.com/in/quangsinhhim/" target="_blank">Quang Sinh</a></h3>
+    </div>
+</body>
+
+</html>

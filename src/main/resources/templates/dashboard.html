@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dashboard</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/dashboard.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/67afa8d00d.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+	<!-- Navbar -->
+	<header class="navbar">
+		<div class="logo-btn">
+			<a href="/dashboard"><img src="/images/weblogo.png" alt="Logo Website"></a>
+		</div>
+		<nav>
+			<ul class="nav-links">
+				<li><a href="/dashboard">Trang chủ<i class="fa-solid fa-house"></i></a></li>
+				<li><a href="/dashboard">Tạo ghi chú mới</a></li>
+				<li><a href="/notestatistics">Danh sách ghi chú</a></li>
+				<li><a href="/feedback">Đánh giá</a></li>
+				<li><a href="/contacts">Liên hệ</a></li>
+				<li><a href="/donation">Donate<i class="fa-solid fa-hand-holding-medical"></i></a></li>
+
+			</ul>
+		</nav>
+		<div class="notification-icon">
+			<span class="material-icons">notifications</span>
+			<span id="notification-count" class="notification-count">3</span>
+		</div>
+		<div class="user-avatar">
+			<img th:src="@{${avatarphoto}}" alt="User Avatar" class="avatar" id="avatar-icon">
+			<div class="avatar-dropdown">
+				<ul>
+					<li><a href="/client/myprofile">Thông tin cá nhân</a></li>
+					<li><a href="/client/changepassword">Đổi mật khẩu</a></li>
+					<li><a href="/logout">Đăng xuất</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+
+
+	<div class="main-container">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<div class="user-info">
+				<img th:src="@{${avatarphoto}}" alt="User Avatar" class="avatar">
+				<h3 th:text="${fullname}">Full name</h3>
+				<p th:text="${email}">This is content</p>
+			</div>
+			<ul class="menu">
+				<li><a href="/dashboard"><i class="fa-regular fa-pen-to-square"></i>Tạo ghi chú mới</a></li>
+				<li><a href="/notestatistics"><i class="fa-solid fa-list-ul"></i>Danh sách ghi chú</a></li>
+				<li><a href="/feedback"><i class="fa-regular fa-message"></i>Đánh giá</a></li>
+			</ul>
+		</aside>
+
+		<main class="content">
+			<div class="create-note">
+				<h3>Tạo ghi chú mới <i class="fa-regular fa-note-sticky"></i></h3>
+				<div id="message-container">
+				</div>
+
+				<div th:if="${errorMessage != null}" class="alert alert-error">
+					<strong>Lỗi!</strong> <span th:text="${errorMessage}"></span>
+				</div>
+				<div th:if="${successMessage != null}" class="alert alert-success">
+					<strong>Thành công!</strong> <span th:text="${successMessage}"></span>
+				</div>
+
+				<form id="textnote-form" action="/features/createtextnote" method="POST" style="display: block;">
+
+					<div class="note-type-options">
+						<p class="note-type">Chọn loại ghi chú:</p>
+						<select name="type" class="note-type-select" id="textnote-select">
+							<option value="textnote" selected>Textnote</option>
+							<option value="tasknote">Tasknote</option>
+						</select>
+					</div>
+					<p class="title">Tiêu đề ghi chú</p>
+					<label>
+						<input type="text" name="title" id="title" class="input-text" placeholder="Nhập tiêu đề ghi chú"
+							required>
+					</label>
+					<p class="title">Nội dung ghi chú</p>
+
+					<textarea name="note-text" id="note-input-text" placeholder="Nhập ghi chú của bạn tại đây..."
+						required></textarea>
+					<input type="hidden" name="content" id="content-hidden">
+					<div class="privacy-options">
+						<label><i class="fa-solid fa-user-gear"></i> Quyền riêng tư:</label>
+						<div class="privacy-options-wrapper">
+							<label>
+								<input type="radio" name="privacy" value="PUBLIC" checked> Công khai
+								<i class="fa-solid fa-earth-americas"></i>
+							</label>
+							<label>
+								<input type="radio" name="privacy" value="PRIVATE"> Riêng tư
+								<i class="fa-solid fa-lock"></i>
+							</label>
+						</div>
+
+					</div>
+					<button type="submit" class="submit-note">Tạo ghi chú</button>
+				</form>
+
+				<form id="tasknote-form" method="POST">
+					<div class="note-type-options">
+						<p class="note-type">Chọn loại ghi chú:</p>
+						<select name="type" class="note-type-select" id="tasknote-select">
+							<option value="tasknote" selected>Tasknote</option>
+							<option value="textnote">Textnote</option>
+						</select>
+					</div>
+
+					<p class="title">Tiêu đề ghi chú</p>
+					<label>
+						<input type="text" name="title" id="titletasknote" class="input-text"
+							placeholder="Nhập tiêu đề ghi chú" required>
+					</label>
+
+					<div class="tasknote-container">
+						<div id="tasknote-input" class="tasknote-input" contenteditable="true"
+							placeholder="Nhập công việc tại đây..." name="note-task"></div>
+
+						<input type="hidden" id="tasknote-tasks" name="tasks">
+						<input type="hidden" id="tasknote-numbertask" name="numbertask">
+
+						<button type="button" id="add-task-btn">Thêm công việc</button>
+
+						<ul id="task-list" class="task-list"></ul>
+					</div>
+
+					<div class="privacy-options">
+						<label><i class="fa-solid fa-user-gear"></i> Quyền riêng tư:</label>
+						<div class="privacy-options-wrapper">
+							<label>
+								<input type="radio" name="privacy" value="PUBLIC" checked> Công khai
+								<i class="fa-solid fa-earth-americas"></i>
+							</label>
+							<label>
+								<input type="radio" name="privacy" value="PRIVATE"> Riêng tư
+								<i class="fa-solid fa-lock"></i>
+							</label>
+						</div>
+					</div>
+
+					<button type="submit" class="submit-note">Tạo ghi chú</button>
+				</form>
+
+
+
+			</div>
+		</main>
+		<script>
+			const avatarIcon = document.getElementById('avatar-icon');
+			const dropdownMenu = document.querySelector('.avatar-dropdown');
+
+			avatarIcon.addEventListener('click', function () {
+				dropdownMenu.classList.toggle('show');
+			});
+		</script>
+
+		<script>
+			const privacyRadios = document.querySelectorAll('input[name="privacy"]');
+
+			privacyRadios.forEach(radio => {
+				radio.addEventListener('change', function () {
+					console.log(`Privacy is now set to: ${this.value}`);
+				});
+			});
+		</script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				const textnoteSelect = document.getElementById('textnote-select');
+				textnoteSelect.addEventListener('change', function () {
+					const selectedType = this.value;
+					if (selectedType === 'textnote') {
+						document.getElementById('textnote-form').style.display = 'block';
+						document.getElementById('tasknote-form').style.display = 'none';
+					} else if (selectedType === 'tasknote') {
+						document.getElementById('tasknote-form').style.display = 'block';
+						document.getElementById('textnote-form').style.display = 'none';
+					}
+				});
+
+				const tasknoteSelect = document.getElementById('tasknote-select');
+				tasknoteSelect.addEventListener('change', function () {
+					const selectedType = this.value;
+					if (selectedType === 'tasknote') {
+						document.getElementById('tasknote-form').style.display = 'block';
+						document.getElementById('textnote-form').style.display = 'none';
+					} else if (selectedType === 'textnote') {
+						document.getElementById('textnote-form').style.display = 'block';
+						document.getElementById('tasknote-form').style.display = 'none';
+					}
+				});
+
+				const initialSelectedType = textnoteSelect.value;
+				if (initialSelectedType === 'textnote') {
+					document.getElementById('textnote-form').style.display = 'block';
+					document.getElementById('tasknote-form').style.display = 'none';
+				} else {
+					document.getElementById('tasknote-form').style.display = 'block';
+					document.getElementById('textnote-form').style.display = 'none';
+				}
+
+				handleTasknotePlaceholder();
+			});
+			function addTask() {
+				const taskList = document.getElementById('task-list');
+				const taskInput = document.getElementById('tasknote-input');
+				const taskContent = taskInput.innerText.trim();
+
+				if (taskContent) {
+					const taskItem = document.createElement('li');
+					taskItem.classList.add('task-item');
+
+					const taskCheckbox = document.createElement('input');
+					taskCheckbox.type = 'checkbox';
+					taskCheckbox.classList.add('task-checkbox');
+
+					const taskLabel = document.createElement('label');
+					taskLabel.classList.add('task-label');
+					taskLabel.innerText = taskContent;
+
+					const deleteIcon = document.createElement('span');
+					deleteIcon.classList.add('delete-icon');
+					deleteIcon.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+
+					taskItem.appendChild(taskCheckbox);
+					taskItem.appendChild(taskLabel);
+					taskItem.appendChild(deleteIcon);
+
+					taskList.appendChild(taskItem);
+
+					updateTaskList();
+					updateNumberOfTasks();
+
+					taskInput.innerText = '';
+
+					taskCheckbox.addEventListener('change', updateTaskList);
+
+					deleteIcon.addEventListener('click', function () {
+						taskItem.remove();
+						updateTaskList();
+						updateNumberOfTasks();
+					});
+				} else {
+					alert('Vui lòng nhập nội dung công việc!');
+				}
+			}
+
+			function updateTaskList() {
+				const taskListItems = document.querySelectorAll('#task-list .task-item');
+				const taskArray = [];
+
+				taskListItems.forEach((taskItem) => {
+					const taskLabel = taskItem.querySelector('.task-label');
+					const taskCheckbox = taskItem.querySelector('.task-checkbox');
+
+					if (taskLabel) {
+						const taskContent = taskLabel.innerText.trim();
+						const taskStatus = taskCheckbox.checked;
+
+						taskArray.push({
+							content: taskContent,
+							taskStatus: taskStatus
+						});
+					}
+				});
+
+				document.getElementById('tasknote-tasks').value = JSON.stringify(taskArray);
+			}
+
+			function updateNumberOfTasks() {
+				const taskListItems = document.querySelectorAll('#task-list .task-item');
+				const numberOfTasks = taskListItems.length;
+				document.getElementById('tasknote-numbertask').value = numberOfTasks;
+			}
+
+			document.getElementById('tasknote-input').addEventListener('keydown', function (event) {
+				if (event.key === 'Enter') {
+					event.preventDefault();
+					addTask();
+				}
+			});
+
+			document.getElementById('add-task-btn').addEventListener('click', addTask);
+
+
+			function handleTasknotePlaceholder() {
+				const tasknoteInput = document.getElementById('tasknote-input');
+				const placeholderText = "Nhập công việc tại đây...";
+
+				if (tasknoteInput.innerText.trim() === "") {
+					tasknoteInput.innerText = placeholderText;
+					tasknoteInput.style.color = "#aaa";
+				} else if (tasknoteInput.innerText === placeholderText) {
+					tasknoteInput.innerText = "";
+					tasknoteInput.style.color = "#000";
+				}
+			}
+
+			document.getElementById('tasknote-input').addEventListener('focus', function () {
+				const tasknoteInput = document.getElementById('tasknote-input');
+				if (tasknoteInput.innerText === "Nhập công việc tại đây...") {
+					tasknoteInput.innerText = '';
+					tasknoteInput.style.color = "#000";
+				}
+			});
+			document.getElementById('tasknote-form').addEventListener('submit', function (event) {
+				event.preventDefault();
+
+				const form = document.querySelector('#tasknote-form');
+
+				const title = form.querySelector('input[name="title"]').value.trim();
+				const type = form.querySelector('select[name="type"]').value;
+				const privacyElement = form.querySelector('input[name="privacy"]:checked');
+				const privacy = privacyElement ? privacyElement.value : null;
+				const tasks = form.querySelector('#tasknote-tasks').value.trim();
+				const numbertask = form.querySelector('#tasknote-numbertask').value.trim();
+
+				const data = {
+					title: title,
+					type: type,
+					privacy: privacy,
+					tasks: tasks ? JSON.parse(tasks) : [], 
+					numbertask: numbertask
+				};
+
+				fetch('/features/createtasknote', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json',
+					},
+					body: JSON.stringify(data)
+				})
+					.then(response => response.json())
+					.then(data => {
+						console.log('Response Data:', data);
+
+						if (data.status === 'success') {
+							showMessage('Success', data.message, 'success');
+							setTimeout(() => {
+								window.location.href = '/notestatistics?type=tasknote';
+							}, 4000);
+						} else {
+							showMessage('Đã xảy ra lỗi khi cập nhật ghi chú', data.message, 'error');
+							displayErrors(data.errors);
+						}
+					})
+					.catch(error => {
+						console.error('Lỗi khi gửi yêu cầu:', error);
+						showMessage('Đã xảy ra lỗi khi cập nhật ghi chú', 'Không thể gửi dữ liệu. Vui lòng thử lại.', 'error');
+					});
+			});
+
+			function showMessage(title, message, type) {
+				const messageContainer = document.getElementById('message-container');
+				messageContainer.innerHTML = `
+        <div class="alert alert-${type}">
+            <strong>${title}</strong> ${message}
+        </div>
+    `;
+				setTimeout(() => {
+					messageContainer.innerHTML = '';
+				}, 5000);
+			}
+
+			function displayErrors(errors) {
+				clearFormErrors();
+
+				if (errors) {
+					errors.forEach(error => {
+						const errorMessage = error.split(' - ');
+
+						if (errorMessage.length === 2) {
+							const field = errorMessage[0].split(':')[1].trim();
+							const message = errorMessage[1].trim();
+
+							const inputField = document.querySelector(`[name="${field}"]`);
+							if (inputField) {
+								const errorElement = document.createElement('div');
+								errorElement.classList.add('error-message');
+								errorElement.style.color = 'red';
+								errorElement.innerText = message;
+
+								inputField.insertAdjacentElement('afterend', errorElement);
+							}
+						} else {
+							const globalErrorContainer = document.getElementById('global-error-container');
+							if (globalErrorContainer) {
+								const globalErrorMessage = document.createElement('div');
+								globalErrorMessage.classList.add('error-message');
+								globalErrorMessage.style.color = 'red';
+								globalErrorMessage.innerText = error;
+								globalErrorContainer.appendChild(globalErrorMessage);
+							}
+						}
+					});
+				}
+			}
+
+
+			function clearFormErrors() {
+				const errorMessages = document.querySelectorAll('.error-message');
+				errorMessages.forEach(error => {
+					error.remove();
+				});
+			}
+
+
+
+			document.getElementById('textnote-form').addEventListener('submit', function (event) {
+				var noteContent = document.getElementById('note-input-text').value.trim();
+
+				document.getElementById('content-hidden').value = noteContent;
+
+				if (!noteContent) {
+					alert("Nội dung ghi chú không được bỏ trống!");
+					event.preventDefault();
+				}
+			});
+
+		</script>
+
+
+
+</body>
+
+</html>
