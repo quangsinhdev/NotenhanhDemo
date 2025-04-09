@@ -9,8 +9,8 @@ public class TaskDTO {
     private Long id;
 	@NotEmpty(message = "Nội dung Task không được bỏ trống")
 	@Size(min = 1, max = 500, message ="Tối thiểu 1 ký tự, Tối đa 500 ký tự 1 task")
-	@Pattern(regexp = "^[A-Za-z0-9áàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ ]*$", message = "Nội dung task không hợp lệ")
-    private String content;
+	@Pattern(regexp = "^[\\p{L}0-9\\s.,:-]*$", message = "Nội dung task không hợp lệ")
+	private String content;
 	@NotEmpty(message = "Tình trạng task không được bỏ trống")
     private boolean taskStatus;
 	public TaskDTO(Long id,
